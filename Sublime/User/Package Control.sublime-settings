@@ -1,0 +1,45 @@
+{
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"All Autocomplete",
+		"AutoFileName",
+		"Bracketeer",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"ColorPicker",
+		"Dimmed Color Scheme",
+		"DocBlockr",
+		"Emmet",
+		"Git",
+		"GitGutter",
+		"GoSublime",
+		"Http Requester",
+		"jQuery Snippets pack",
+		"JSHint Gutter",
+		"LESS",
+		"MarkdownEditing",
+		"MarkdownLight",
+		"MoveTab",
+		"Nodejs",
+		"Package Control",
+		"PackageResourceViewer",
+		"PhpDoc",
+		"ReactJS",
+		"ReactJS Snippets",
+		"Sass",
+		"SCSS",
+		"Section Comment",
+		"SideBarEnhancements",
+		"SmartMarkdown",
+		"SublimeCodeIntel",
+		"SublimeREPL",
+		"Sublimerge Pro",
+		"Terminal",
+		"Theme - Fox",
+		"TodoReview"
+	]
+}

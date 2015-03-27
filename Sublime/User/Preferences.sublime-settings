@@ -1,0 +1,55 @@
+{
+	"always_show_minimap_viewport": true,
+	"bitwise": true,
+	"browser": true,
+	"color_scheme": "Packages/Dimmed Color Scheme/dimmed-storm.tmTheme",
+	"detect_indentation": false,
+	"draw_centered": false,
+	"draw_white_space": "all",
+	"esnext": true,
+	"folder_exclude_patterns":
+	[
+		"local",
+		".git"
+	],
+	"font_size": 11,
+	"freeze": true,
+	"globals":
+	{
+		"_": true,
+		"after": true,
+		"before": true,
+		"suite": true,
+		"test": true
+	},
+	"globalstrict": true,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"Vintage",
+		"Markdown"
+	],
+	"indent": 4,
+	"jquery": true,
+	"latedef": true,
+	"laxbreak": true,
+	"maxcomplexity": 25,
+	"newcap": false,
+	"node": true,
+	"noempty": true,
+	"remember_full_screen": true,
+	"rulers":
+	[
+		120
+	],
+	"smarttabs": false,
+	"tab_size": 4,
+	"theme": "fox.dark.sublime-theme",
+	"trailing": true,
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+	"undef": true,
+	"unused": true,
+	"word_wrap": false
+}
