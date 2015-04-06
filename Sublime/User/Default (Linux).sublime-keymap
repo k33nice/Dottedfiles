@@ -1,7 +1,9 @@
 [
     { "keys": ["ctrl+shift+'"], "command": "change_quotes" },
     { "keys": ["alt+ctrl+h"], "command": "move", "args": {"by": "subwords", "forward": false} },
+    { "keys": ["alt+ctrl+р"], "command": "move", "args": {"by": "subwords", "forward": false} },
     { "keys": ["alt+ctrl+l"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
+    { "keys": ["alt+ctrl+д"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
     { "keys": ["alt+b"], "command": "move", "args": {"by": "subwords", "forward": false} },
     { "keys": ["alt+f"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
     { "keys": ["alt+a"], "command": "move_to", "args": {"to": "eol", "extend": false} },
@@ -37,7 +39,9 @@
     { "keys": ["super+shift+down"], "command": "select_lines", "args": {"forward": true} },
 
     { "keys": ["ctrl+shift+alt+k"], "command": "swap_line_up" },
+    { "keys": ["ctrl+shift+alt+л"], "command": "swap_line_up" },
     { "keys": ["ctrl+shift+alt+j"], "command": "swap_line_down" },
+    { "keys": ["ctrl+shift+alt+о"], "command": "swap_line_down" },
 
     { "keys": ["ctrl+shift+space"], "command": "expand_selection", "args": {"to": "scope"} },
 
