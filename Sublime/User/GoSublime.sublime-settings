@@ -1,4 +1,6 @@
 {
-    "translate_tabs_to_spaces": true,
-    "env": {"GOPATH": "$HOME/go"}
+    "shell": ["/bin/zsh"],
+    "env": {
+        "GOPATH":"/home/k33n/workspace/go/"
+    }
 }

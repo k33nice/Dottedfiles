@@ -4,8 +4,8 @@
     { "keys": ["alt+ctrl+р"], "command": "move", "args": {"by": "subwords", "forward": false} },
     { "keys": ["alt+ctrl+l"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
     { "keys": ["alt+ctrl+д"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
-    { "keys": ["alt+b"], "command": "move", "args": {"by": "subwords", "forward": false} },
-    { "keys": ["alt+f"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
+    // { "keys": ["alt+b"], "command": "move", "args": {"by": "subwords", "forward": false} },
+    // { "keys": ["alt+f"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
     { "keys": ["alt+a"], "command": "move_to", "args": {"to": "eol", "extend": false} },
     { "keys": ["alt+ф"], "command": "move_to", "args": {"to": "eol", "extend": false} },
     { "keys": ["alt+i"], "command": "move_to", "args": {"to": "bol", "extend": false} },
@@ -137,5 +137,14 @@
             { "key": "auto_complete_visible", "operator": "equal", "operand": true }
         ]
     },
+    { "keys": ["super+d"], "command": "goto_definition" },
 
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n| "},
+        "context": [
+          { "key": "setting.auto_indent",   "operator": "equal",          "operand": true,              "match_all": true },
+          { "key": "preceding_text",        "operator": "regex_contains", "operand": "^\\s*\\|\\s*\\S", "match_all": true }
+        ]
+    },
+    {"keys": ["alt+w"], "command": "run_macro_file", "args": {"file": "Packages/User/del_subword_right.sublime-macro"} },
+    {"keys": ["alt+b"], "command": "run_macro_file", "args": {"file": "Packages/User/del_subword_left.sublime-macro"} }
 ]

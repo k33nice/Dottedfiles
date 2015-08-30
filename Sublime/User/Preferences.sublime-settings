@@ -1,8 +1,12 @@
 {
 	"always_show_minimap_viewport": true,
+	"auto_complete": true,
+	"auto_complete_commit_on_tab": true,
+	"auto_complete_selector": "",
+	"auto_complete_with_fields": true,
 	"bitwise": true,
 	"browser": true,
-	"color_scheme": "Packages/Dimmed Color Scheme/dimmed-storm.tmTheme",
+	"color_scheme": "Packages/User/SublimeLinter/dimmed-storm (SL).tmTheme",
 	"detect_indentation": false,
 	"draw_centered": false,
 	"draw_white_space": "all",
@@ -12,7 +16,7 @@
 		"local",
 		".git"
 	],
-	"font_size": 11,
+	"font_size": 10,
 	"freeze": true,
 	"globals":
 	{
@@ -27,7 +31,8 @@
 	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
-		"Vintage",
+        "Vintage",
+        "Vintageous",
 		"Markdown"
 	],
 	"indent": 4,
@@ -45,7 +50,7 @@
 	],
 	"smarttabs": false,
 	"tab_size": 4,
-	"theme": "fox.dark.sublime-theme",
+	"theme": "Fox.sublime-theme",
 	"trailing": true,
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,

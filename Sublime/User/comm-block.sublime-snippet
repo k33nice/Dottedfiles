@@ -1,0 +1,11 @@
+<snippet>
+    <content><![CDATA[
+/*------------------------------------------------------------------------------
+| ${1:Section comment block}
+|-------------------------------------------------------------------------------
+| ${2}
+*/
+]]></content>
+    <tabTrigger>comm-section</tabTrigger>
+    <description>Comment - Full section comment</description>
+</snippet>
