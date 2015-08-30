@@ -13,6 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'xero/sourcerer.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'jelera/vim-javascript-syntax'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -40,13 +41,22 @@ map <F3> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 set encoding=utf8
-set list lcs=trail:·,tab:»·
+set list lcs=trail:·,tab:--
 
 set number
 
 syntax enable
+syntax on
+set t_Co=256
+set term=xterm-256color
 set background=dark
-colorscheme peaksea
+"colorscheme peaksea
+colorscheme spacegray
+"colorscheme distinguished
+"colorscheme dracula
+
+
+set nowrap " kikoo (lol)"
 
 " NERDTress File highlighting
  function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -79,3 +89,37 @@ set hlsearch!
 nnoremap <F4> :set hlsearch!<CR>
 
 set tabstop=4 shiftwidth=4 expandtab
+
+nnoremap Q <nop>
+
+let g:ycm_global_ycm_extra_conf = '~/.vim_runtime/sources_non_forked/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+
+map <C-c> "+y
+"map <C-c> "*y
+map <C-v> "+p
+map <C-v> "*p
+inoremap <C-v> <esc>"*]p:set nopaste<cr>
+
+" NERDTree show hidden files
+let NERDTreeShowHidden=1
+" Git Gutter
+let g:gitgutter_enabled=1
+
+" Indent guiges settings
+set shiftwidth=4
+"set background=dark
+let g:indent_guides_auto_colors=0
+
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=darkgray
+let g:indent_guides_color_change_percent=90
+
+let g:indent_guides_guide_size=1
+let g:indent_guides_start_level=2
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_exclude_filetypes=['help', 'nerdtree']
+
+
+noremap <silent> <C-S>          :update<CR>
+vnoremap <silent> <C-S>         <C-C>:update<CR>
+inoremap <silent> <C-S>         <C-O>:update<CR>

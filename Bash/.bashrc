@@ -357,6 +357,7 @@ function scm_prompt_info {
   [[ $SCM == $SCM_SVN ]] && svn_prompt_info && return
 }
 
+
 function git_prompt_vars {
   local details=''
   SCM_STATE=${GIT_THEME_PROMPT_CLEAN:-$SCM_THEME_PROMPT_CLEAN}
@@ -564,19 +565,13 @@ function prompt_char {
     scm_char
 }
 
-if [ ! -e $BASH_IT/plugins/enabled/battery.plugin.bash ]; then
-# if user has installed battery plugin, skip this...
-    function battery_charge (){
-        # no op
-            echo -n
-    }
-fi
-
 
 
 #added TITLEBAR for updating the tab and window titles with the pwd
 case $TERM in
     xterm*)
+    trap 'echo -ne "\e]0;"; echo -n $BASH_COMMAND; echo -ne "\007"' DEBUG
+    export PS1="\e]0;$TERM\007$PS1"
     TITLEBAR="\[\033]0;\w\007\]"
     ;;
     *)
@@ -822,4 +817,23 @@ if ! shopt -oq posix; then
 fi
 
 
+bind '"\C-i": menu-complete'
+bind 'set show-all-if-ambiguous on'
+bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
+export TERM=xterm-256color
+
+# zsh
+alias vim="stty stop '' -ixoff ; vim"
+# `Frozing' tty, so after any command terminal settings will be restored
+
+# bash
+# No ttyctl, so we need to save and then restore terminal settings
+vim()
+{
+    # osx users, use stty -g
+    local STTYOPTS="$(stty --save)"
+    stty stop '' -ixoff
+    command vim "$@"
+    stty "$STTYOPTS"
+}
