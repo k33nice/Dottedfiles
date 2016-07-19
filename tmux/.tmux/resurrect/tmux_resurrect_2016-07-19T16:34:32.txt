@@ -1,0 +1,13 @@
+pane	logistics	1	:vim	1	:*	1	:/root/work/logistics-api	1	vim	:vim
+pane	logistics	2	:npm	0	:	1	:/root/work/logistics-api	1	npm	:npm
+pane	logistics	3	:php	0	:-	1	:/root/work/logistics-api	1	php	:php -S 0.0:8003 -t public
+pane	logistics	4	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	logistics	5	:vim	0	:	1	:/root/work/marketing-portal	1	vim	:vim
+pane	user_api	1	:~/work/user-api	1	:*	1	:/root/work/user-api	1	zsh	:
+window	logistics	1	1	:*	d29d,204x59,0,0,0
+window	logistics	2	0	:	d29e,204x59,0,0,1
+window	logistics	3	0	:-	d29f,204x59,0,0,2
+window	logistics	4	0	:	d2a0,204x59,0,0,3
+window	logistics	5	0	:	d2a1,204x59,0,0,4
+window	user_api	1	1	:*	d2a2,204x59,0,0,5
+state	logistics	

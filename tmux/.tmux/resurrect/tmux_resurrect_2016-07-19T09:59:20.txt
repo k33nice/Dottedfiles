@@ -1,0 +1,21 @@
+pane	0	1	:..rk/cataloguer	0	:-	1	:/root/work/cataloguer	1	zsh	:
+pane	0	2	:php	0	:	1	:/root/work/cataloguer	1	php	:php -S 0.0:8002 -t public
+pane	0	3	:..rk/cataloguer	0	:	1	:/root/work/cataloguer	1	zsh	:
+pane	0	4	:npm	0	:	1	:/root/work/cataloguer	1	npm	:npm
+pane	0	5	:vim	0	:	1	:/root/work/marketing-portal	1	vim	:vim
+pane	0	6	:php	0	:	1	:/root/work/marketing-portal	1	php	:php -S 0.0:8001 -t public/
+pane	0	7	:mysql	0	:	1	:/root	1	mysql	:mysql -h188.166.31.158 -ulogistic -px xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx marketing_db
+pane	0	8	:~	0	:	1	:/root	1	zsh	:
+pane	0	9	:..keting-portal	0	:	1	:/root/work/marketing-portal	1	zsh	:
+pane	0	10	:~	1	:*	1	:/root	1	zsh	:
+window	0	1	0	:-	d29d,204x59,0,0,0
+window	0	2	0	:	d29e,204x59,0,0,1
+window	0	3	0	:	d29f,204x59,0,0,2
+window	0	4	0	:	d2a0,204x59,0,0,3
+window	0	5	0	:	d2a1,204x59,0,0,4
+window	0	6	0	:	d2a2,204x59,0,0,5
+window	0	7	0	:	d2a3,204x59,0,0,6
+window	0	8	0	:	d2a4,204x59,0,0,7
+window	0	9	0	:	d2a5,204x59,0,0,8
+window	0	10	1	:*	d2a6,204x59,0,0,9
+state	0	

@@ -1,0 +1,15 @@
+pane	0	1	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	0	2	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	0	3	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	0	4	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	0	5	:vim	1	:*	1	:/root/work/marketing-portal	1	vim	:vim
+pane	0	6	:..keting-portal	0	:	1	:/root/work/marketing-portal	1	zsh	:
+pane	0	7	:~	0	:-	1	:/root	1	zsh	:
+window	0	1	0	:	c69d,204x56,0,0,0
+window	0	2	0	:	c69e,204x56,0,0,1
+window	0	3	0	:	c69f,204x56,0,0,2
+window	0	4	0	:	c6a0,204x56,0,0,3
+window	0	5	1	:*	c6a1,204x56,0,0,4
+window	0	6	0	:	c6a2,204x56,0,0,5
+window	0	7	0	:-	c6a3,204x56,0,0,6
+state	0	

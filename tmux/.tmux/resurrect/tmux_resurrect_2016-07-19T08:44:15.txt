@@ -1,0 +1,19 @@
+pane	0	1	:vim	0	:	1	:/root/work/logistics-api	1	vim	:vim
+pane	0	2	:root@188.166.1.129	0	:	1	:/root/work/logistics-api	1	ssh	:ssh root@188.166.1.129
+pane	0	3	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	0	4	:..logistics-api	0	:	1	:/root/work/logistics-api	1	zsh	:
+pane	0	5	:vim	1	:*	1	:/root/work/marketing-portal	1	vim	:vim
+pane	0	6	:php	0	:	1	:/root/work/marketing-portal	1	php	:php -S 0.0:8001 -t public/
+pane	0	7	:mysql	0	:	1	:/root	1	mysql	:mysql -h188.166.31.158 -ulogistic -px xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx marketing_db
+pane	0	8	:~	0	:-	1	:/root	1	zsh	:
+pane	0	9	:..keting-portal	0	:	1	:/root/work/marketing-portal	1	zsh	:
+window	0	1	0	:	ca9d,204x57,0,0,0
+window	0	2	0	:	ca9e,204x57,0,0,1
+window	0	3	0	:	ca9f,204x57,0,0,2
+window	0	4	0	:	caa0,204x57,0,0,3
+window	0	5	1	:*	caa1,204x57,0,0,4
+window	0	6	0	:	caa2,204x57,0,0,5
+window	0	7	0	:	caa3,204x57,0,0,6
+window	0	8	0	:-	caa4,204x57,0,0,7
+window	0	9	0	:	caa5,204x57,0,0,8
+state	0	
