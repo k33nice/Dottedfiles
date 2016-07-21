@@ -3,7 +3,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'scrooloose/nerdcommenter'
@@ -19,6 +18,18 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'ervandew/supertab'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
+Plug 'tpope/vim-surround'
+Plug 'rking/ag.vim'
+Plug 'justinmk/vim-sneak'
+Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
+if exists("g:plugs['yajs.vim']")
+    Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
+endif
 
 call plug#end()
 
@@ -33,7 +44,7 @@ map <F3> :NERDTreeTabsToggle<CR>
 " ------------------- Neocomplete ---------------------------
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " ------------------- CtrlSF --------------------------------
 nmap     <C-F>f <Plug>CtrlSFPrompt
@@ -83,6 +94,16 @@ let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
 nnoremap <C-c> :call multiple_cursors#quit()<CR>
+autocmd VimEnter * NeoCompleteEnable    " Workaround to make multiple-cursors fast
+" << cut >>
+" Make multiple cursors fast with neocomplete
+function! Multiple_cursors_before()
+    exe 'NeoCompleteDisable'
+endfunction
+
+function! Multiple_cursors_after()
+    exe 'NeoCompleteEnable'
+endfunction
 
 " ------------------- Gitgutter ------------------------------
 autocmd BufEnter * sign define dummy
@@ -91,6 +112,23 @@ autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('
 " ------------------- Easyalign ------------------------------
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" ------------------- Supertab -------------------------------
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" ------------------- Supertab -------------------------------
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" ------------------- Supertab -------------------------------
+" Let Vim walk up directory hierarchy from CWD to root looking for tags file
+set tags=tags;/
+" " Tell EasyTags to use the tags file found by Vim
+let g:easytags_dynamic_files = 1
+let g:easytags_events = ['BufWritePost']
+let g:easytags_auto_highlight = 0
+let g:easytags_async = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -115,6 +153,21 @@ map <leader>m <Esc>:set expandtab tabstop=2 shiftwidth=2<CR>
 " Think "little tabs" and "big tabs":
 map <leader>t <Esc>:set expandtab tabstop=4 shiftwidth=4<CR>
 nnoremap <leader><space> :noh<cr>
+
+" BREAKS ULTISNIPS!
+set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+
+" Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
+
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -174,6 +227,10 @@ set tm=500
 " For tmux usage
 set mouse=nicrv
 
+" disable underline text in html
+let html_no_rendering=1
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -189,6 +246,9 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+
+let &colorcolumn=join(range(120,999),",")
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
