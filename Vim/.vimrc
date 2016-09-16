@@ -35,6 +35,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tobyS/pdv'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -46,6 +47,7 @@ call plug#end()
 " => Plugins config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ------------------ NERDTree -------------------------------
+
 let g:NERDTreeWinPos = "right"
 map <F3> :NERDTreeTabsToggle<CR>
 
@@ -61,7 +63,9 @@ let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 
 "Set minimum syntax keyword length
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#sources#syntax#min_keyword_length = 2
+" Set max tags cache
+let g:neocomplete#sources#tags#cache_limit_size = 1024000
 
 " Enable insert mode moving
 let g:neocomplete#enable_insert_char_pre = 1
@@ -99,7 +103,7 @@ let g:session_path = $HOME . '/.vim/sessions/' . g:session_name
 au VimEnter * nested call StartOrLoadSess()
 
 " ------------------- Airline -------------------------------
-set laststatus = 2
+set laststatus=2
 let g:airline_theme = 'tomorrow'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
@@ -119,8 +123,13 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-nnoremap <silent> <C-p> :FZF<CR>
+if has('macunix')
+    nnoremap <silent> <Esc>f :FZF<CR>
+else
+    nnoremap <silent> <M-f> :FZF<CR>
+endif
 let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
+
 
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
@@ -152,14 +161,8 @@ let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" ------------------- EasyTags -------------------------------
-" Let Vim walk up directory hierarchy from CWD to root looking for tags file
+" ------------------- Guttentags -------------------------------
 set tags=tags;
-" " Tell EasyTags to use the tags file found by Vim
-"let g:easytags_dynamic_files = 2
-"let g:easytags_events = ['BufWritePost']
-"let g:easytags_auto_highlight = 0
-"let g:easytags_async = 1
 
 " ------------------- UltiSnips -------------------------------
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -179,6 +182,9 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 
+" ------------------ PDV -------------------------------------
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+nnoremap <buffer> <C-d>c :call pdv#DocumentWithSnip()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -187,8 +193,8 @@ let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 set fileencoding=utf-8
 set encoding=utf-8
 set termencoding=utf-8
-" Sets how many lines of history VIM has to remember
 set history=700
+set cursorline
 
 " Enable filetype plugins
 filetype plugin on
