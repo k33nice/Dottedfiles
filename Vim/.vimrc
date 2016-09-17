@@ -18,13 +18,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
-"Plug 'SirVer/ultisnips' |
-Plug 'honza/vim-snippets'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
 Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-surround'
 Plug 'rking/ag.vim'
 Plug 'justinmk/vim-sneak'
@@ -35,13 +31,23 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tobyS/pdv'
+Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
+Plug 'k33nice/vim_snippets'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
 
 call plug#end()
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helpers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:is_mac = !s:is_windows && !s:is_cygwin
+      \ && (has('mac') || has('macunix') || has('gui_macvim')
+      \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins config
@@ -51,12 +57,10 @@ call plug#end()
 let g:NERDTreeWinPos = "right"
 map <F3> :NERDTreeTabsToggle<CR>
 
-
 " ------------------ NERDCommenter --------------------------
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
-
 
 " ------------------- Neocomplete ---------------------------
 let g:neocomplete#enable_at_startup = 1
@@ -123,13 +127,12 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-if has('macunix')
+if s:is_mac
     nnoremap <silent> <Esc>f :FZF<CR>
 else
     nnoremap <silent> <M-f> :FZF<CR>
 endif
 let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
-
 
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
@@ -157,34 +160,17 @@ nmap ga <Plug>(EasyAlign)
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " ------------------- UltiSnips -------------------------------
-let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:UltiSnipsExpandTrigger="<Esc>e"
+let g:UltiSnipsJumpForwardTrigger="<Esc>j"
+let g:UltiSnipsJumpBackwardTrigger="<Esc>k"
 
 " ------------------- Guttentags -------------------------------
 set tags=tags;
 
-" ------------------- UltiSnips -------------------------------
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=0 concealcursor=niv
-endif
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
-
 " ------------------ PDV -------------------------------------
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <buffer> <C-d>c :call pdv#DocumentWithSnip()<CR>
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+nnoremap <Esc>g :call pdv#DocumentWithSnip()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
