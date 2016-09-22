@@ -42,7 +42,6 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helpers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
@@ -53,7 +52,6 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 " => Plugins config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ------------------ NERDTree -------------------------------
-
 let g:NERDTreeWinPos = "right"
 map <F3> :NERDTreeTabsToggle<CR>
 
@@ -161,16 +159,32 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " ------------------- UltiSnips -------------------------------
 
-let g:UltiSnipsExpandTrigger="<Esc>e"
-let g:UltiSnipsJumpForwardTrigger="<Esc>j"
-let g:UltiSnipsJumpBackwardTrigger="<Esc>k"
+if (s:is_mac)
+    let g:UltiSnipsExpandTrigger="<Esc>e"
+    let g:UltiSnipsJumpForwardTrigger="<Esc>j"
+    let g:UltiSnipsJumpBackwardTrigger="<Esc>k"
+else
+    let g:UltiSnipsExpandTrigger="<M-e>"
+    let g:UltiSnipsJumpForwardTrigger="<M-j>"
+    let g:UltiSnipsJumpBackwardTrigger="<M-k>"
+endif
+
 
 " ------------------- Guttentags -------------------------------
 set tags=tags;
 
 " ------------------ PDV -------------------------------------
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
-nnoremap <Esc>g :call pdv#DocumentWithSnip()<CR>
+
+" ------------------ Yankring -------------------------------------
+if (s:is_mac)
+    let g:yankring_replace_n_pkey='<Esc>p'
+    let g:yankring_replace_n_nkey = '<Esc>n'
+else
+    let g:yankring_replace_n_pkey='<M-p>'
+    let g:yankring_replace_n_nkey = '<M-n>'
+endif
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
