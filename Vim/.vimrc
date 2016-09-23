@@ -33,6 +33,10 @@ Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
+Plug 'trevordmiller/nova-vim'
+Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'pangloss/vim-javascript'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -190,6 +194,7 @@ endif
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set shell=bash
 set fileencoding=utf-8
 set encoding=utf-8
 set termencoding=utf-8
@@ -304,6 +309,7 @@ syntax enable
 set t_Co=256
 set background=dark
 colorscheme PaperColor
+" colorscheme nova
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
