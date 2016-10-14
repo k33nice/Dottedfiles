@@ -33,10 +33,10 @@ Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
-Plug 'trevordmiller/nova-vim'
 Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'pangloss/vim-javascript'
+Plug 'majutsushi/tagbar'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -189,11 +189,15 @@ else
     let g:yankring_replace_n_nkey = '<M-n>'
 endif
 
+" ------------------ Yankring -------------------------------------
+nmap <F8> :TagbarToggle<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set nocompatible
 set shell=bash
 set fileencoding=utf-8
 set encoding=utf-8
@@ -204,6 +208,9 @@ set cursorline
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
+
+" listchars
+set list listchars=tab:»·,trail:·,nbsp:·
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -238,6 +245,7 @@ command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 map <leader><Left> :Tabcloseleft<CR>
 map <leader><Right> :Tabcloseright<CR>
 
+nnoremap <Leader>w :w<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -310,15 +318,16 @@ set t_Co=256
 set background=dark
 colorscheme PaperColor
 " colorscheme nova
+" colorscheme default
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-
+" set colorcolumn=121
+highlight ColorColumn ctermbg=0 guibg=#2c2d27
 let &colorcolumn=join(range(120,999),",")
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -341,6 +350,11 @@ set tw=500
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
+
+"" Auto PASTE when paste in insert mode
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -427,6 +441,23 @@ function! TabCloseLeft(bang)
     while tabpagenr() > 1
         exe 'tabclose' . a:bang . ' 1'
     endwhile
+endfunction
+
+function! WrapForTmux(s)
+  if !exists('$TMUX')
+    return a:s
+  endif
+
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+endfunction
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
 endfunction
 
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
