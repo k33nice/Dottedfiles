@@ -57,7 +57,8 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ------------------ NERDTree -------------------------------
 let g:NERDTreeWinPos = "right"
-map <F3> :NERDTreeTabsToggle<CR>
+map <F3> :NERDTreeToggle<CR>
+map <F4> :NERDTreeTabsToggle<CR>
 
 " ------------------ NERDCommenter --------------------------
 let g:NERDSpaceDelims = 1
@@ -103,10 +104,14 @@ let g:ctrlsf_winsize = '100%'
 " ------------------- Obsession -----------------------------
 silent execute '!mkdir -p ~/.vim/sessions'
 let g:current_path = expand('%:p:h')
-let g:session_name = substitute(g:current_path, '/', '_', 'g')
+let g:session_name = substitute(g:current_path, '[/ ]', '_', 'g')
 let g:session_path = $HOME . '/.vim/sessions/' . g:session_name
 
-au VimEnter * nested call StartOrLoadSess()
+aug sess
+  au!
+  au VimEnter * nested call StartSess()
+  au BufEnter * nested call RestoreSess()
+aug END
 
 " ------------------- Airline -------------------------------
 set laststatus=2
@@ -325,9 +330,9 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-" set colorcolumn=121
 highlight ColorColumn ctermbg=0 guibg=#2c2d27
 let &colorcolumn=join(range(120,999),",")
+" set colorcolumn=121
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -352,8 +357,8 @@ set si "Smart indent
 set wrap "Wrap lines
 
 "" Auto PASTE when paste in insert mode
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 
@@ -422,36 +427,29 @@ function! s:VSetSearch(cmd)
   call setreg('"', old_reg, old_regtype)
 endfunction
 
-function! StartOrLoadSess()
-    if !argc() && empty(v:this_session) && filereadable(g:session_path) && !&modified
-      execute "source" . g:session_path
-    elseif !argc()
-      execute "Obsession" . g:session_path
-    endif
+function! StartSess()
+  if !argc()
+    execute "Obsession" . g:session_path
+  endif
+endfunction
+
+function! RestoreSess()
+  if !argc() && empty(v:this_session) && filereadable(g:session_path) && !&modified
+    execute "source" . g:session_path
+  endif
 endfunction
 
 function! TabCloseRight(bang)
-    let cur=tabpagenr()
-    while cur < tabpagenr('$')
-        exe 'tabclose' . a:bang . ' ' . (cur + 1)
-    endwhile
+  let cur=tabpagenr()
+  while cur < tabpagenr('$')
+    exe 'tabclose' . a:bang . ' ' . (cur + 1)
+  endwhile
 endfunction
 
 function! TabCloseLeft(bang)
-    while tabpagenr() > 1
-        exe 'tabclose' . a:bang . ' 1'
-    endwhile
-endfunction
-
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-    return a:s
-  endif
-
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
-
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+  while tabpagenr() > 1
+    exe 'tabclose' . a:bang . ' 1'
+  endwhile
 endfunction
 
 function! XTermPasteBegin()
