@@ -37,6 +37,7 @@ Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'majutsushi/tagbar'
+Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -57,8 +58,8 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ------------------ NERDTree -------------------------------
 let g:NERDTreeWinPos = "right"
-map <F3> :NERDTreeToggle<CR>
-map <F4> :NERDTreeTabsToggle<CR>
+map <F4> :NERDTreeToggle<CR>
+map <F3> :NERDTreeTabsToggle<CR>
 
 " ------------------ NERDCommenter --------------------------
 let g:NERDSpaceDelims = 1
@@ -100,6 +101,10 @@ nmap     <C-F>l <Plug>CtrlSFQuickfixPrompt
 vmap     <C-F>l <Plug>CtrlSFQuickfixVwordPath
 vmap     <C-F>L <Plug>CtrlSFQuickfixVwordExec
 let g:ctrlsf_winsize = '100%'
+let g:ctrlsf_extra_backend_args = {
+    \ 'rg': '--no-ignore',
+    \ 'ag': '-u'
+    \ }
 
 " ------------------- Obsession -----------------------------
 silent execute '!mkdir -p ~/.vim/sessions'
@@ -180,7 +185,17 @@ endif
 
 
 " ------------------- Guttentags -------------------------------
-set tags=tags;
+set tags=tags;,./jstags;
+function! MyCallback(channel)
+    echomsg "generate jstags"
+    exe "messages"
+endfunction
+
+function! JSTAG_GEN()
+    let g:cmd = 'find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags'
+    call system('find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags')
+    call job_start('find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags', {"close_cb": "MyCallback"})
+endfunction
 
 " ------------------ PDV -------------------------------------
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
