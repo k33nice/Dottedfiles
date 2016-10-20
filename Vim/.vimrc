@@ -79,6 +79,9 @@ let g:neocomplete#sources#tags#cache_limit_size = 1024000
 let g:neocomplete#enable_insert_char_pre = 1
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
+" Redefine ft-sql annoying key
+let g:ftplugin_sql_omni_key = '<Leader>sql'
+
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -148,16 +151,16 @@ let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
 
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
-nnoremap <C-c> :call multiple_cursors#quit()<CR>
+nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
 autocmd VimEnter * NeoCompleteEnable    " Workaround to make multiple-cursors fast
 " << cut >>
 " Make multiple cursors fast with neocomplete
 function! Multiple_cursors_before()
-    exe 'NeoCompleteDisable'
+   silent! exe 'NeoCompleteDisable'
 endfunction
 
 function! Multiple_cursors_after()
-    exe 'NeoCompleteEnable'
+    silent! exe 'NeoCompleteEnable'
 endfunction
 
 " ------------------- Gitgutter ------------------------------
@@ -186,16 +189,13 @@ endif
 
 " ------------------- Guttentags -------------------------------
 set tags=tags;,./jstags;
-function! MyCallback(channel)
-    echomsg "generate jstags"
-    exe "messages"
-endfunction
+let g:gutentags_exclude=['node_modules']
 
-function! JSTAG_GEN()
-    let g:cmd = 'find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags'
-    call system('find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags')
-    call job_start('find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags', {"close_cb": "MyCallback"})
+function! JSTAG_GEN_PRJ()
+    call system('find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags &')
 endfunction
+" au VimEnter * call JSTAG_GEN_PRJ()
+
 
 " ------------------ PDV -------------------------------------
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
