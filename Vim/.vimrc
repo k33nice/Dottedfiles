@@ -36,8 +36,9 @@ Plug 'k33nice/vim_snippets'
 Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'pangloss/vim-javascript'
-Plug 'majutsushi/tagbar'
 Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
+Plug 'neomake/neomake'
+Plug 'mhinz/vim-startify'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -200,6 +201,7 @@ endfunction
 " ------------------ PDV -------------------------------------
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 
+
 " ------------------ Yankring -------------------------------------
 if (s:is_mac)
     let g:yankring_replace_n_pkey='<Esc>p'
@@ -209,8 +211,25 @@ else
     let g:yankring_replace_n_nkey = '<M-n>'
 endif
 
+
 " ------------------ Yankring -------------------------------------
 nmap <F8> :TagbarToggle<CR>
+
+
+" ------------------ Neomake -------------------------------------
+let g:neomake_javascript_enabled_makers = ['eslint']
+autocmd! BufWritePost * Neomake
+
+
+" ------------------ Startify -------------------------------------
+let g:startify_custom_header=[
+\ '  _  __  ____    ____            _____                ',
+\ ' | |/ / |___ \  |___ \          |_   _|               ',
+\ ' | ` /    __) |   __) |  _ __     | |     ___    ___  ',
+\ ' |  <    |__ <   |__ <  | `_ \    | |    / __|  / _ \ ',
+\ ' | . \   ___) |  ___) | | | | |  _| |_  | (__  |  __/ ',
+\ ' |_|\_\ |____/  |____/  |_| |_| |_____|  \___|  \___| ',
+\ ]
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -345,7 +364,7 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-highlight ColorColumn ctermbg=0 guibg=#2c2d27
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
 let &colorcolumn=join(range(120,999),",")
 " set colorcolumn=121
 
@@ -376,6 +395,9 @@ let &t_SI .= "\<Esc>[?2004h"
 let &t_EI .= "\<Esc>[?2004l"
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
+let g:lasttab = 1
+nmap gl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -385,6 +407,7 @@ set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 
+nmap path :let @+ = expand('%') <CR>
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
