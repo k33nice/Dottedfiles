@@ -39,6 +39,9 @@ Plug 'pangloss/vim-javascript'
 Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
 Plug 'neomake/neomake'
 Plug 'mhinz/vim-startify'
+Plug 'suan/vim-instant-markdown'
+Plug 'w0rp/ale'
+Plug 'chase/vim-ansible-yaml'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -216,9 +219,15 @@ endif
 nmap <F8> :TagbarToggle<CR>
 
 
-" ------------------ Neomake -------------------------------------
-let g:neomake_javascript_enabled_makers = ['eslint']
-autocmd! BufWritePost * Neomake
+" ------------------ Neomake --------------------------------------
+" autocmd! BufWritePost * Neomake
+
+" ------------------ ALE ------------------------------------------
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 
 " ------------------ Startify -------------------------------------
