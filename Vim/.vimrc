@@ -42,6 +42,7 @@ Plug 'mhinz/vim-startify'
 Plug 'suan/vim-instant-markdown'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
+Plug 'evanmiller/nginx-vim-syntax'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
@@ -206,6 +207,8 @@ let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 
 
 " ------------------ Yankring -------------------------------------
+silent execute '!mkdir -p ~/.vim/yankringhistory'
+let g:yankring_history_dir = $HOME."/.vim/yankringhistory"
 if (s:is_mac)
     let g:yankring_replace_n_pkey='<Esc>p'
     let g:yankring_replace_n_nkey = '<Esc>n'
