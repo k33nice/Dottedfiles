@@ -8,6 +8,7 @@ Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'KeitaNakamura/neodark.vim'
 Plug 'tpope/vim-obsession'
 Plug 'Shougo/neocomplete.vim'
 Plug 'dyng/ctrlsf.vim'
@@ -135,7 +136,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 " ------------------- FZF -----------------------------------
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
+  \ 'bg':      ['bg', '*Normal'],
   \ 'hl':      ['fg', 'Comment'],
   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
@@ -263,6 +264,7 @@ filetype indent on
 " listchars
 set list listchars=tab:»·,trail:·,nbsp:·
 
+
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
@@ -358,7 +360,6 @@ set mouse=nicrv
 " disable underline text in html
 let html_no_rendering=1
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -368,8 +369,7 @@ syntax enable
 set t_Co=256
 set background=dark
 colorscheme PaperColor
-" colorscheme nova
-" colorscheme default
+" colorscheme neodark
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -419,9 +419,23 @@ let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
+" sunaku's vim/tmux 256color hack. more info here:
+" https://github.com/ninrod/tricks/blob/master/shell/tmux.md#sunakus-hack-for-fixing-256-colors-colorschemes-for-vim-inside-tmux
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+endif
+
 let g:lasttab = 1
 nmap gl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
+
+
+" formatopts
+autocmd FileType * setlocal formatoptions-=o
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
