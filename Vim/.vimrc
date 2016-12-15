@@ -38,17 +38,21 @@ Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 Plug 'mhinz/vim-startify'
 Plug 'suan/vim-instant-markdown'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
 Plug 'evanmiller/nginx-vim-syntax'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'mattn/emmet-vim'
+Plug 'sjl/gundo.vim'
 if exists("g:plugs['yajs.vim']")
     Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 endif
 
 call plug#end()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helpers
@@ -178,6 +182,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " ------------------- Supertab -------------------------------
+" for neocomplete (forward tab cycle)
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " ------------------- UltiSnips -------------------------------
@@ -225,11 +230,15 @@ nmap <F8> :TagbarToggle<CR>
 
 " ------------------ Neomake --------------------------------------
 " autocmd! BufWritePost * Neomake
+" autocmd InsertChange,TextChanged * update | Neomake
+
+
 
 " ------------------ ALE ------------------------------------------
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
+let g:ale_javascript_eslint_executable  = 'eslint'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
@@ -244,6 +253,17 @@ let g:startify_custom_header=[
 \ ' |_|\_\ |____/  |____/  |_| |_| |_____|  \___|  \___| ',
 \ ]
 
+" ------------------ JavascriptLibs -------------------------------
+let g:used_javascript_libs = ''
+autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
+autocmd BufReadPre *.js let b:javascript_lib_use_react = 1
+autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
+
+" ------------------ Gundo ----------------------------------------
+nnoremap <F5> :GundoToggle<CR>
+let g:gundo_width = 60
+let g:gundo_preview_height = 40
+let g:gundo_preview_bottom = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -299,6 +319,23 @@ map <leader><Left> :Tabcloseleft<CR>
 map <leader><Right> :Tabcloseright<CR>
 
 nnoremap <Leader>w :w<CR>
+
+" move vertically by visual line  -- won't skip over wrapped lines
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap j gj
+nnoremap k gk
+
+" Move in Insert Mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+imap <C-h> <C-o>h
+imap <C-j> <C-o>j
+imap <C-k> <C-o>k
+imap <C-l> <C-o>l
+
+" <Leader>% - Search and Replace Highlighted Text
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap <Leader>% "hy:%s/<C-r>h//gc<left><left><left>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -380,6 +417,16 @@ highlight ColorColumn ctermbg=235 guibg=#2c2d27
 let &colorcolumn=join(range(120,999),",")
 " set colorcolumn=121
 
+" ALE error sign disable background
+highlight Error ctermbg=none
+
+" Fix syntax Highlight
+nmap <leader>r :syntax sync fromstart<cr>
+autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
+
+" ------------------ Autofiletypes -------------------------------------
+au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
+au BufRead,BufNewFile *php*.* if &ft == '' | setfiletype php | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -429,7 +476,7 @@ if &term =~ '256color'
 endif
 
 let g:lasttab = 1
-nmap gl :exe "tabn ".g:lasttab<CR>
+nmap <silent> gl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
 
@@ -444,6 +491,7 @@ silent execute '!mkdir -p ~/.vim/{swap,backup,undo}'
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
+set undofile
 
 nmap path :let @+ = expand('%') <CR>
 
