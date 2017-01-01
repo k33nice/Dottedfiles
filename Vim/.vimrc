@@ -10,7 +10,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'tpope/vim-obsession'
-Plug 'Shougo/neocomplete.vim'
+" Plug 'Shougo/neocomplete.vim'
+Plug 'maralla/completor.vim', {'do': 'make js'}
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
 Plug 'vim-airline/vim-airline'
@@ -25,8 +26,6 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'rking/ag.vim'
 Plug 'justinmk/vim-sneak'
-Plug 'othree/yajs.vim'
-Plug 'othree/es.next.syntax.vim'
 Plug 'evidens/vim-twig'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'vim-scripts/YankRing.vim'
@@ -34,22 +33,25 @@ Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
-Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'pangloss/vim-javascript'
 Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
 " Plug 'neomake/neomake'
+Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'suan/vim-instant-markdown'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
 Plug 'evanmiller/nginx-vim-syntax'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'mattn/emmet-vim'
 Plug 'sjl/gundo.vim'
+" Plug 'pangloss/vim-javascript'
+Plug 'othree/html5.vim'
+Plug 'othree/yajs.vim'
 if exists("g:plugs['yajs.vim']")
-    Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
+    Plug 'othree/javascript-libraries-syntax.vim'
+    Plug 'othree/es.next.syntax.vim'
 endif
+Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 
 call plug#end()
 
@@ -62,6 +64,7 @@ let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim')
       \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins config
@@ -77,29 +80,39 @@ let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
 
 " ------------------- Neocomplete ---------------------------
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
+if exists("g:plugs['neocomplete.vim']")
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
 
-"Set minimum syntax keyword length
-let g:neocomplete#sources#syntax#min_keyword_length = 2
-" Set max tags cache
-let g:neocomplete#sources#tags#cache_limit_size = 1024000
+    "Set minimum syntax keyword length
+    let g:neocomplete#sources#syntax#min_keyword_length = 2
+    " Set max tags cache
+    let g:neocomplete#sources#tags#cache_limit_size = 1024000
 
-" Enable insert mode moving
-let g:neocomplete#enable_insert_char_pre = 1
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    " Enable insert mode moving
+    let g:neocomplete#enable_insert_char_pre = 1
+    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" Redefine ft-sql annoying key
-let g:ftplugin_sql_omni_key = '<Leader>sql'
+    " Redefine ft-sql annoying key
+    let g:ftplugin_sql_omni_key = '<Leader>sql'
 
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+endif
+
+" ------------------- Completor ---------------------------
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
+set completeopt-=preview
 
 " ------------------- CtrlSF --------------------------------
 nmap     <C-F>f <Plug>CtrlSFPrompt
@@ -162,6 +175,8 @@ let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
 nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
+
+if exists("g:plugs['neocomplete.vim']")
 autocmd VimEnter * NeoCompleteEnable    " Workaround to make multiple-cursors fast
 " << cut >>
 " Make multiple cursors fast with neocomplete
@@ -172,6 +187,7 @@ endfunction
 function! Multiple_cursors_after()
     silent! exe 'NeoCompleteEnable'
 endfunction
+endif
 
 " ------------------- Gitgutter ------------------------------
 autocmd BufEnter * sign define dummy
@@ -215,6 +231,8 @@ let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 " ------------------ Yankring -------------------------------------
 silent execute '!mkdir -p ~/.vim/yankringhistory'
 let g:yankring_history_dir = $HOME."/.vim/yankringhistory"
+" disable g
+let g:yankring_paste_using_g = 0
 if (s:is_mac)
     let g:yankring_replace_n_pkey='<Esc>p'
     let g:yankring_replace_n_nkey = '<Esc>n'
@@ -224,14 +242,9 @@ else
 endif
 
 
-" ------------------ Yankring -------------------------------------
-nmap <F8> :TagbarToggle<CR>
-
-
 " ------------------ Neomake --------------------------------------
 " autocmd! BufWritePost * Neomake
 " autocmd InsertChange,TextChanged * update | Neomake
-
 
 
 " ------------------ ALE ------------------------------------------
@@ -265,6 +278,26 @@ let g:gundo_width = 60
 let g:gundo_preview_height = 40
 let g:gundo_preview_bottom = 1
 
+" ------------------ vim-javascript -------------------------------
+if exists("g:plugs['vim-javascript']")
+    aug vim_javascript
+      au!
+      " for PaperColor
+      au BufEnter *.js,*.jsx hi! link jsThis javaScriptIdentifier
+    aug END
+endif
+
+" ----------------------- yajs ------------------------------------
+if exists("g:plugs['yajs.vim']")
+    aug vim_javascript
+      au!
+      " for PaperColor
+      au BufEnter *.js,*.jsx hi! link javascriptImport Include
+      au BufEnter *.js,*.jsx hi! link javascriptExport Include
+    aug END
+endif
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -284,9 +317,6 @@ filetype indent on
 " listchars
 set list listchars=tab:»·,trail:·,nbsp:·
 
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
 let mapleader = ","
 let g:mapleader = ","
 
@@ -313,6 +343,9 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
+" Select last pasted
+nnoremap gp `[v`]
+
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 map <leader><Left> :Tabcloseleft<CR>
@@ -335,6 +368,23 @@ imap <C-l> <C-o>l
 " <Leader>% - Search and Replace Highlighted Text
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vnoremap <Leader>% "hy:%s/<C-r>h//gc<left><left><left>
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>mm mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+
+" Move a line of text using ALT+[jk] or Command+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+if s:is_mac
+  nmap <Esc>j <M-j>
+  nmap <Esc>k <M-k>
+  vmap <Esc>j <M-j>
+  vmap <Esc>k <M-k>
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -450,7 +500,6 @@ set si "Smart indent
 set wrap "Wrap lines
 
 "" Auto PASTE when paste in insert mode
-
 function! WrapForTmux(s)
   if !exists('$TMUX')
     return a:s
@@ -495,6 +544,7 @@ set undofile
 
 nmap path :let @+ = expand('%') <CR>
 
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
@@ -514,6 +564,7 @@ if !hasmapto("<Plug>VLToggle")
   nmap <unique> <Leader>vl <Plug>VLToggle
 endif
 let &cpo = s:save_cpo | unlet s:save_cpo
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
