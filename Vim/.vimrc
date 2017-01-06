@@ -47,6 +47,8 @@ Plug 'sjl/gundo.vim'
 " Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 if exists("g:plugs['yajs.vim']")
     Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'othree/es.next.syntax.vim'
@@ -112,6 +114,8 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php setlocal omnifunc=syntaxcomplete#Complete
+" let g:completor_php_omni_trigger = '([$\w]{3,}|use\s*|->[$\w]*|::[$\w]*|implements\s*|extends\s*|class\s+[$\w]+|new\s*)$'
 set completeopt-=preview
 
 " ------------------- CtrlSF --------------------------------
@@ -153,7 +157,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 " ------------------- FZF -----------------------------------
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', '*Normal'],
+  \ 'bg':      ['bg', 'Normal'],
   \ 'hl':      ['fg', 'Comment'],
   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
@@ -175,6 +179,8 @@ let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
 nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
+nnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
+vnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
 
 if exists("g:plugs['neocomplete.vim']")
 autocmd VimEnter * NeoCompleteEnable    " Workaround to make multiple-cursors fast
@@ -302,6 +308,7 @@ endif
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set guioptions=M
 set nocompatible
 set shell=bash
 set fileencoding=utf-8
@@ -315,7 +322,8 @@ filetype plugin on
 filetype indent on
 
 " listchars
-set list listchars=tab:»·,trail:·,nbsp:·
+" set list listchars=tab:»·,trail:·,nbsp:·
+set list listchars=tab:\|\ ,trail:·,nbsp:·
 
 let mapleader = ","
 let g:mapleader = ","
@@ -353,6 +361,8 @@ map <leader><Right> :Tabcloseright<CR>
 
 nnoremap <Leader>w :w<CR>
 
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+
 " move vertically by visual line  -- won't skip over wrapped lines
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap j gj
@@ -386,6 +396,10 @@ if s:is_mac
   vmap <Esc>k <M-k>
 endif
 
+noremap <C-C> <ESC>
+
+" visual macro
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -471,12 +485,13 @@ let &colorcolumn=join(range(120,999),",")
 highlight Error ctermbg=none
 
 " Fix syntax Highlight
-nmap <leader>r :syntax sync fromstart<cr>
+nmap <leader>r :syntax sync fromstart \| redraw! <cr>
 autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
 
 " ------------------ Autofiletypes -------------------------------------
 au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
 au BufRead,BufNewFile *php*.* if &ft == '' | setfiletype php | endif
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -631,6 +646,11 @@ function! XTermPasteBegin()
   set pastetoggle=<Esc>[201~
   set paste
   return ""
+endfunction
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
