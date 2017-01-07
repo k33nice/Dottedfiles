@@ -132,7 +132,7 @@ vmap     <C-F>l <Plug>CtrlSFQuickfixVwordPath
 vmap     <C-F>L <Plug>CtrlSFQuickfixVwordExec
 let g:ctrlsf_winsize = '100%'
 let g:ctrlsf_extra_backend_args = {
-    \ 'rg': '--no-ignore',
+    \ 'rg': '-uu',
     \ 'ag': '-u'
     \ }
 
@@ -174,7 +174,7 @@ if s:is_mac
 else
     nnoremap <silent> <M-f> :FZF<CR>
 endif
-let $FZF_DEFAULT_COMMAND = 'ag -la --hidden'
+let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL --glob "!.git/*"'
 
 " ------------------- MultipleCursors ------------------------
 let g:multi_cursor_quit_key='<C-c>'
