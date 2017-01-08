@@ -396,7 +396,7 @@ if s:is_mac
   vmap <Esc>k <M-k>
 endif
 
-noremap <C-C> <ESC>
+inoremap <C-C> <ESC>
 
 " visual macro
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
