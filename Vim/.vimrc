@@ -7,6 +7,7 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'tpope/vim-obsession'
@@ -24,6 +25,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'evidens/vim-twig'
@@ -35,7 +37,7 @@ Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
-" Plug 'neomake/neomake'
+Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'suan/vim-instant-markdown'
@@ -109,14 +111,16 @@ if exists("g:plugs['neocomplete.vim']")
 endif
 
 " ------------------- Completor ---------------------------
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php setlocal omnifunc=syntaxcomplete#Complete
-" let g:completor_php_omni_trigger = '([$\w]{3,}|use\s*|->[$\w]*|::[$\w]*|implements\s*|extends\s*|class\s+[$\w]+|new\s*)$'
-set completeopt-=preview
+if exists("g:plugs['completor.vim']")
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType php setlocal omnifunc=syntaxcomplete#Complete
+    " let g:completor_php_omni_trigger = '([$\w]{3,}|use\s*|->[$\w]*|::[$\w]*|implements\s*|extends\s*|class\s+[$\w]+|new\s*)$'
+    set completeopt-=preview
+endif
 
 " ------------------- CtrlSF --------------------------------
 nmap     <C-F>f <Plug>CtrlSFPrompt
@@ -220,7 +224,7 @@ else
 endif
 
 
-" ------------------- Guttentags -------------------------------
+" ------------------- Gutentags -------------------------------
 set tags=tags;,./jstags;
 let g:gutentags_exclude=['node_modules']
 
@@ -249,7 +253,8 @@ endif
 
 
 " ------------------ Neomake --------------------------------------
-" autocmd! BufWritePost * Neomake
+let g:neomake_go_enabled_makers = ['go']
+autocmd! BufWritePost *.go Neomake
 " autocmd InsertChange,TextChanged * update | Neomake
 
 
@@ -260,6 +265,9 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_linters = {
+\   'go': ['gofmt', 'golint', 'govet'],
+\}
 
 
 " ------------------ Startify -------------------------------------
@@ -303,6 +311,14 @@ if exists("g:plugs['yajs.vim']")
     aug END
 endif
 
+" ----------------------- vim-go ------------------------------------
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_extra_types = 1
+
+au FileType go map <buffer> <2-LeftMouse> :GoInfo<cr>
+au FileType go map <silent> <buffer> <leader>d :GoInfo<cr>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -315,7 +331,8 @@ set fileencoding=utf-8
 set encoding=utf-8
 set termencoding=utf-8
 set history=700
-set cursorline
+" set cursorline
+set ttyfast
 
 " Enable filetype plugins
 filetype plugin on
@@ -382,7 +399,6 @@ vnoremap <Leader>% "hy:%s/<C-r>h//gc<left><left><left>
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>mm mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
@@ -400,6 +416,8 @@ inoremap <C-C> <ESC>
 
 " visual macro
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+map <space> %
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -461,37 +479,6 @@ set mouse=nicrv
 " disable underline text in html
 let html_no_rendering=1
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable asynta  highlighting
-syntax enable
-
-set t_Co=256
-set background=dark
-colorscheme PaperColor
-" colorscheme neodark
-
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-let &colorcolumn=join(range(120,999),",")
-" set colorcolumn=121
-
-" ALE error sign disable background
-highlight Error ctermbg=none
-
-" Fix syntax Highlight
-nmap <leader>r :syntax sync fromstart \| redraw! <cr>
-autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
-
-" ------------------ Autofiletypes -------------------------------------
-au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
-au BufRead,BufNewFile *php*.* if &ft == '' | setfiletype php | endif
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -513,6 +500,10 @@ set tw=500
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
+
+" more natural split behavior
+set splitbelow
+set splitright
 
 "" Auto PASTE when paste in insert mode
 function! WrapForTmux(s)
@@ -546,6 +537,42 @@ au TabLeave * let g:lasttab = tabpagenr()
 
 " formatopts
 autocmd FileType * setlocal formatoptions-=o
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable asynta  highlighting
+syntax enable
+
+" ALE, neomake error sign
+augroup error_signs
+    au!
+    au ColorScheme * hi NeomakeErrorSign ctermfg=125
+    au ColorScheme * hi ALEErrorSign ctermbg=none ctermfg=125
+augroup END
+
+set t_Co=256
+set background=dark
+colorscheme PaperColor
+" colorscheme neodark
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+let &colorcolumn=join(range(120,999),",")
+" set colorcolumn=121
+
+" Fix syntax Highlight
+nmap <leader>r :syntax sync fromstart \| redraw! <cr>
+autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
+
+" ------------------ Autofiletypes -------------------------------------
+au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
+au BufRead,BufNewFile *php*.* if &ft == '' | setfiletype php | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
