@@ -11,8 +11,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'tpope/vim-obsession'
-" Plug 'Shougo/neocomplete.vim'
-Plug 'maralla/completor.vim', {'do': 'make js'}
+Plug 'Shougo/neocomplete.vim'
+" Plug 'maralla/completor.vim', {'do': 'make js'}
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
 Plug 'vim-airline/vim-airline'
@@ -36,7 +36,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
@@ -56,6 +56,8 @@ if exists("g:plugs['yajs.vim']")
     Plug 'othree/es.next.syntax.vim'
 endif
 Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
+Plug 'tpope/vim-fugitive'
+Plug 'dhruvasagar/vim-table-mode'
 
 call plug#end()
 
@@ -75,8 +77,8 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ------------------ NERDTree -------------------------------
 let g:NERDTreeWinPos = "right"
-map <F4> :NERDTreeToggle<CR>
-map <F3> :NERDTreeTabsToggle<CR>
+map <F3> :NERDTreeToggle<CR>
+map <F4> :NERDTreeTabsToggle<CR>
 
 " ------------------ NERDCommenter --------------------------
 let g:NERDSpaceDelims = 1
@@ -95,7 +97,15 @@ if exists("g:plugs['neocomplete.vim']")
 
     " Enable insert mode moving
     let g:neocomplete#enable_insert_char_pre = 1
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    " inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ neocomplete#start_manual_complete()
+    function! s:check_back_space() abort "{{{
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction"}}}
 
     " Redefine ft-sql annoying key
     let g:ftplugin_sql_omni_key = '<Leader>sql'
@@ -108,10 +118,13 @@ if exists("g:plugs['neocomplete.vim']")
     if !exists('g:neocomplete#sources#omni#input_patterns')
         let g:neocomplete#sources#omni#input_patterns = {}
     endif
+    set completeopt-=preview
 endif
 
 " ------------------- Completor ---------------------------
 if exists("g:plugs['completor.vim']")
+    let g:ftplugin_sql_omni_key = '<Leader>sql'
+
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -319,6 +332,11 @@ let g:go_highlight_extra_types = 1
 au FileType go map <buffer> <2-LeftMouse> :GoInfo<cr>
 au FileType go map <silent> <buffer> <leader>d :GoInfo<cr>
 
+" ------------------- vim-table-mode --------------------------------
+let g:table_mode_corner="|"
+" let g:table_mode_corner_corner="|"
+" let g:table_mode_header_fillchar="="
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -406,13 +424,15 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 if s:is_mac
-  nmap <Esc>j <M-j>
   nmap <Esc>k <M-k>
+  nmap <Esc>j <M-j>
   vmap <Esc>j <M-j>
   vmap <Esc>k <M-k>
 endif
 
-inoremap <C-C> <ESC>
+noremap <C-c> <ESC>
+vnoremap <C-c> <ESC>
+inoremap <C-c> <ESC>
 
 " visual macro
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
