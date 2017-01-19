@@ -9,7 +9,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'KeitaNakamura/neodark.vim'
+" Plug 'KeitaNakamura/neodark.vim'
 Plug 'tpope/vim-obsession'
 Plug 'Shougo/neocomplete.vim'
 " Plug 'maralla/completor.vim', {'do': 'make js'}
@@ -170,6 +170,7 @@ set laststatus=2
 let g:airline_theme = 'tomorrow'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
+
 
 " ------------------- FZF -----------------------------------
 let g:fzf_colors =
@@ -436,6 +437,7 @@ inoremap <C-c> <ESC>
 
 " visual macro
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+nnoremap <leader>jq :call ToJSON()<CR>
 
 map <space> %
 
@@ -498,6 +500,9 @@ set mouse=nicrv
 
 " disable underline text in html
 let html_no_rendering=1
+
+" file > 50MB disble slow actions
+autocmd BufEnter * if getfsize(@%) > 52428800 | call LargeFile() | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -698,6 +703,20 @@ endfunction
 function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
+function! ToJSON()
+    %!jq .
+    set syntax=json
+endfunction
+
+function! LargeFile()
+    set noshowmatch
+    set matchpairs=
+    set syntax=off
+    set nowrap
+    NoMatchParen
+    AirlineToggle
 endfunction
 
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
