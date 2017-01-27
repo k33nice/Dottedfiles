@@ -30,7 +30,8 @@ Plug 'rking/ag.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'evidens/vim-twig'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'vim-scripts/YankRing.vim'
+" Plug 'vim-scripts/YankRing.vim'
+Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
@@ -46,7 +47,6 @@ Plug 'chase/vim-ansible-yaml'
 Plug 'evanmiller/nginx-vim-syntax'
 Plug 'mattn/emmet-vim'
 Plug 'sjl/gundo.vim'
-" Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -55,9 +55,13 @@ if exists("g:plugs['yajs.vim']")
     Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'othree/es.next.syntax.vim'
 endif
-Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
+Plug 'pangloss/vim-javascript'
+" Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 Plug 'tpope/vim-fugitive'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'rizzatti/dash.vim'
+Plug 'thomasthune/devdocsbuf'
+Plug 'jamessan/vim-gnupg'
 
 call plug#end()
 
@@ -253,16 +257,30 @@ let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 
 
 " ------------------ Yankring -------------------------------------
-silent execute '!mkdir -p ~/.vim/yankringhistory'
-let g:yankring_history_dir = $HOME."/.vim/yankringhistory"
-" disable g
-let g:yankring_paste_using_g = 0
-if (s:is_mac)
-    let g:yankring_replace_n_pkey='<Esc>p'
-    let g:yankring_replace_n_nkey = '<Esc>n'
-else
-    let g:yankring_replace_n_pkey='<M-p>'
-    let g:yankring_replace_n_nkey = '<M-n>'
+if exists("g:plugs['YankRing.vim']")
+    silent execute '!mkdir -p ~/.vim/yankringhistory'
+    let g:yankring_history_dir = $HOME."/.vim/yankringhistory"
+    " disable g
+    let g:yankring_paste_using_g = 0
+    if (s:is_mac)
+        let g:yankring_replace_n_pkey='<Esc>p'
+        let g:yankring_replace_n_nkey = '<Esc>n'
+    else
+        let g:yankring_replace_n_pkey='<M-p>'
+        let g:yankring_replace_n_nkey = '<M-n>'
+    endif
+endif
+
+" ------------------ yankstack -------------------------------------
+if exists("g:plugs['vim-yankstack']")
+    if (s:is_mac)
+        nmap <Esc>p <Plug>yankstack_substitute_older_paste
+        nmap <Esc>n <Plug>yankstack_substitute_newer_paste
+    else
+        nmap <M-p> <Plug>yankstack_substitute_older_paste
+        nmap <M-n> <Plug>yankstack_substitute_newer_paste
+    endif
+    let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
 endif
 
 
@@ -308,21 +326,21 @@ let g:gundo_preview_bottom = 1
 
 " ------------------ vim-javascript -------------------------------
 if exists("g:plugs['vim-javascript']")
-    aug vim_javascript
-      au!
-      " for PaperColor
-      au BufEnter *.js,*.jsx hi! link jsThis javaScriptIdentifier
-    aug END
+aug vim_javascript
+  au!
+  " for PaperColor
+  au BufEnter *.js,*.jsx hi! link jsThis javaScriptIdentifier
+aug END
 endif
 
 " ----------------------- yajs ------------------------------------
 if exists("g:plugs['yajs.vim']")
-    aug vim_javascript
-      au!
-      " for PaperColor
-      au BufEnter *.js,*.jsx hi! link javascriptImport Include
-      au BufEnter *.js,*.jsx hi! link javascriptExport Include
-    aug END
+aug vim_javascript
+  au!
+  " for PaperColor
+  au BufEnter *.js,*.jsx hi! link javascriptImport Include
+  au BufEnter *.js,*.jsx hi! link javascriptExport Include
+aug END
 endif
 
 " ----------------------- vim-go ------------------------------------
@@ -338,6 +356,18 @@ let g:table_mode_corner="|"
 " let g:table_mode_corner_corner="|"
 " let g:table_mode_header_fillchar="="
 
+" ------------------- auto-pairs ------------------------------------
+let g:AutoPairsMultilineClose = 0
+
+" ------------------- dash ------------------------------------------
+nmap <silent> <Esc>d <Plug>DashSearch
+
+" ------------------- vim-instant-markdown --------------------------
+let g:instant_markdown_autostart = 0
+
+" ------------------- devdocsbuf ------------------------------------
+let g:devdocsbuf_devdocs_path = "/Users/k33nice/hack/libs/devdocs/public/docs/"
+nmap man :Devdocsbuf<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
