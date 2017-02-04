@@ -9,7 +9,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
-" Plug 'KeitaNakamura/neodark.vim'
 Plug 'tpope/vim-obsession'
 Plug 'Shougo/neocomplete.vim'
 " Plug 'maralla/completor.vim', {'do': 'make js'}
@@ -30,7 +29,6 @@ Plug 'rking/ag.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'evidens/vim-twig'
 Plug 'ludovicchabant/vim-gutentags'
-" Plug 'vim-scripts/YankRing.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -41,25 +39,23 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
-Plug 'suan/vim-instant-markdown'
+Plug 'NBUT-Developers/extra-instant-markdown'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
 Plug 'evanmiller/nginx-vim-syntax'
 Plug 'mattn/emmet-vim'
 Plug 'sjl/gundo.vim'
 Plug 'othree/html5.vim'
-Plug 'othree/yajs.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'othree/yajs.vim'
 if exists("g:plugs['yajs.vim']")
     Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'othree/es.next.syntax.vim'
 endif
 Plug 'pangloss/vim-javascript'
-" Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' }
 Plug 'tpope/vim-fugitive'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'rizzatti/dash.vim'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
 
@@ -81,6 +77,8 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ------------------ NERDTree -------------------------------
 let g:NERDTreeWinPos = "right"
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 map <F3> :NERDTreeToggle<CR>
 map <F4> :NERDTreeTabsToggle<CR>
 
@@ -360,10 +358,10 @@ let g:table_mode_corner="|"
 let g:AutoPairsMultilineClose = 0
 
 " ------------------- dash ------------------------------------------
-nmap <silent> <Esc>d <Plug>DashSearch
+" nmap <silent> <Esc>d <Plug>DashSearch
 
 " ------------------- vim-instant-markdown --------------------------
-let g:instant_markdown_autostart = 0
+" let g:instant_markdown_autostart = 0
 
 " ------------------- devdocsbuf ------------------------------------
 let g:devdocsbuf_devdocs_path = "/Users/k33nice/hack/libs/devdocs/public/docs/"
@@ -382,6 +380,8 @@ set termencoding=utf-8
 set history=700
 " set cursorline
 set ttyfast
+
+set path+=**
 
 " Enable filetype plugins
 filetype plugin on
@@ -618,7 +618,7 @@ set encoding=utf8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
-let &colorcolumn=join(range(120,999),",")
+let &colorcolumn=join(range(121,999),",")
 " set colorcolumn=121
 
 " Fix syntax Highlight
