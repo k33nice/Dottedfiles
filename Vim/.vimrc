@@ -36,7 +36,7 @@ Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'NBUT-Developers/extra-instant-markdown'
@@ -60,7 +60,6 @@ Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
 
 call plug#end()
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helpers
@@ -125,7 +124,7 @@ endif
 
 " ------------------- Completor ---------------------------
 if exists("g:plugs['completor.vim']")
-    let g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
+    let  g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
     let g:ftplugin_sql_omni_key = '<Leader>sql'
 
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -284,8 +283,8 @@ endif
 
 
 " ------------------ Neomake --------------------------------------
-let g:neomake_go_enabled_makers = ['go']
-autocmd! BufWritePost *.go Neomake
+" let g:neomake_go_enabled_makers = ['go']
+" autocmd! BufWritePost *.go Neomake
 " autocmd InsertChange,TextChanged * update | Neomake
 
 
@@ -296,9 +295,9 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-let g:ale_linters = {
-\   'go': ['gofmt', 'golint', 'govet'],
-\}
+" let g:ale_linters = {
+" \   'go': ['gofmt', 'golint', 'govet'],
+" \}
 
 
 " ------------------ Startify -------------------------------------
