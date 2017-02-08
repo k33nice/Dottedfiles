@@ -10,8 +10,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-obsession'
-Plug 'Shougo/neocomplete.vim'
-" Plug 'maralla/completor.vim', {'do': 'make js'}
+" Plug 'Shougo/neocomplete.vim'
+Plug 'maralla/completor.vim', {'do': 'make js'}
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
 Plug 'vim-airline/vim-airline'
@@ -125,6 +125,7 @@ endif
 
 " ------------------- Completor ---------------------------
 if exists("g:plugs['completor.vim']")
+    let g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
     let g:ftplugin_sql_omni_key = '<Leader>sql'
 
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -470,6 +471,10 @@ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 nnoremap <leader>jq :call ToJSON()<CR>
 
 map <space> %
+
+map <leader>f :set foldmethod=indent<cr>zM<cr>
+map <leader>F :set foldmethod=manual<cr>zR<cr>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
