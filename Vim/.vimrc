@@ -289,6 +289,7 @@ endif
 
 
 " ------------------ ALE ------------------------------------------
+let g:ale_set_highlights = 0
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
@@ -361,7 +362,7 @@ let g:AutoPairsMultilineClose = 0
 " nmap <silent> <Esc>d <Plug>DashSearch
 
 " ------------------- vim-instant-markdown --------------------------
-" let g:instant_markdown_autostart = 0
+let g:instant_markdown_autostart = 0
 
 " ------------------- devdocsbuf ------------------------------------
 let g:devdocsbuf_devdocs_path = "/Users/k33nice/hack/libs/devdocs/public/docs/"
