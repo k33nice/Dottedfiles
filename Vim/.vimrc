@@ -244,7 +244,7 @@ endif
 
 " ------------------- Gutentags -------------------------------
 set tags=tags;,./jstags;
-let g:gutentags_exclude=['node_modules']
+let g:gutentags_ctags_exclude=['node_modules']
 
 function! JSTAG_GEN_PRJ()
     call system('find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | sort > jstags &')
