@@ -83,6 +83,8 @@ map <F4> :NERDTreeTabsToggle<CR>
 
 " ------------------ NERDCommenter --------------------------
 let g:NERDSpaceDelims = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDRemoveExtraSpaces = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
 
@@ -124,7 +126,7 @@ endif
 
 " ------------------- Completor ---------------------------
 if exists("g:plugs['completor.vim']")
-    let  g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
+    " let  g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
     let g:ftplugin_sql_omni_key = '<Leader>sql'
 
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -334,12 +336,12 @@ endif
 
 " ----------------------- yajs ------------------------------------
 if exists("g:plugs['yajs.vim']")
-aug vim_javascript
-  au!
-  " for PaperColor
-  au BufEnter *.js,*.jsx hi! link javascriptImport Include
-  au BufEnter *.js,*.jsx hi! link javascriptExport Include
-aug END
+" aug vim_javascript
+"   au!
+"   " for PaperColor
+"   au BufEnter *.js,*.jsx hi! link javascriptImport Include
+"   au BufEnter *.js,*.jsx hi! link javascriptExport Include
+" aug END
 endif
 
 " ----------------------- vim-go ------------------------------------
@@ -367,6 +369,10 @@ let g:instant_markdown_autostart = 0
 " ------------------- devdocsbuf ------------------------------------
 let g:devdocsbuf_devdocs_path = "/Users/k33nice/hack/libs/devdocs/public/docs/"
 nmap man :Devdocsbuf<cr>
+
+" ------------------- nerdtree-git-plugin ---------------------------
+au ColorScheme * hi link NERDTreeGitStatusIgnored Title
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
