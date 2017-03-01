@@ -61,6 +61,7 @@ Plug 'jamessan/vim-gnupg'
 
 call plug#end()
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helpers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -254,6 +255,7 @@ endfunction
 
 " ------------------ PDV -------------------------------------
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+nnoremap mn :call pdv#DocumentWithSnip()<CR>
 
 
 " ------------------ Yankring -------------------------------------
@@ -359,6 +361,7 @@ let g:table_mode_corner="|"
 
 " ------------------- auto-pairs ------------------------------------
 let g:AutoPairsMultilineClose = 0
+let g:AutoPairsShortcutFastWrap = '<C-e>'
 
 " ------------------- dash ------------------------------------------
 " nmap <silent> <Esc>d <Plug>DashSearch
