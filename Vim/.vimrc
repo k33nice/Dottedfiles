@@ -48,13 +48,13 @@ Plug 'sjl/gundo.vim'
 Plug 'othree/html5.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-Plug 'othree/yajs.vim'
+" Plug 'othree/yajs.vim'
 if exists("g:plugs['yajs.vim']")
-    Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'othree/es.next.syntax.vim'
+    Plug 'othree/javascript-libraries-syntax.vim'
 endif
 Plug 'pangloss/vim-javascript'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
@@ -173,6 +173,7 @@ aug END
 " ------------------- Airline -------------------------------
 set laststatus=2
 let g:airline_theme = 'tomorrow'
+let g:airline_extensions = ['tabline']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 
@@ -329,21 +330,17 @@ let g:gundo_preview_bottom = 1
 
 " ------------------ vim-javascript -------------------------------
 if exists("g:plugs['vim-javascript']")
-aug vim_javascript
-  au!
-  " for PaperColor
-  au BufEnter *.js,*.jsx hi! link jsThis javaScriptIdentifier
-aug END
+    aug vim_javascript
+      au!
+      " for PaperColor
+      au BufEnter *.js,*.jsx hi! link jsThis javaScriptIdentifier
+      au BufEnter *.js,*.jsx hi! link jsGlobalObjects Global
+      " au BufEnter *.js,*.jsx hi! link jsGlobalObjects Global
+    aug END
 endif
 
 " ----------------------- yajs ------------------------------------
 if exists("g:plugs['yajs.vim']")
-" aug vim_javascript
-"   au!
-"   " for PaperColor
-"   au BufEnter *.js,*.jsx hi! link javascriptImport Include
-"   au BufEnter *.js,*.jsx hi! link javascriptExport Include
-" aug END
 endif
 
 " ----------------------- vim-go ------------------------------------
