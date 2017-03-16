@@ -1,6 +1,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " k33nice <k33nice@gmail.com>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_emit_conflict_warnings = 0
 call plug#begin('~/.vim/plugged')
 
 Plug 'jistr/vim-nerdtree-tabs'
@@ -36,7 +37,7 @@ Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-" Plug 'neomake/neomake'
+Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'NBUT-Developers/extra-instant-markdown'
@@ -128,6 +129,7 @@ endif
 " ------------------- Completor ---------------------------
 if exists("g:plugs['completor.vim']")
     " let  g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
+    let g:completor_gocode_binary = 'gocode'
     let g:ftplugin_sql_omni_key = '<Leader>sql'
 
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -176,6 +178,9 @@ let g:airline_theme = 'tomorrow'
 let g:airline_extensions = ['tabline']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
+call airline#parts#define_function('ALE', 'ALEGetStatusLine')
+call airline#parts#define_condition('ALE', 'exists("*ALEGetStatusLine")')
+let g:airline_section_error = airline#section#create_right(['ALE'])
 
 
 " ------------------- FZF -----------------------------------
@@ -288,9 +293,9 @@ endif
 
 
 " ------------------ Neomake --------------------------------------
-" let g:neomake_go_enabled_makers = ['go']
-" autocmd! BufWritePost *.go Neomake
-" autocmd InsertChange,TextChanged * update | Neomake
+let g:neomake_go_enabled_makers = ['go']
+autocmd! BufWritePost *.go Neomake
+autocmd InsertChange,TextChanged * update | Neomake
 
 
 " ------------------ ALE ------------------------------------------
@@ -299,11 +304,12 @@ let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
+let g:ale_emit_confilct_warnings = 0
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-" let g:ale_linters = {
-" \   'go': ['gofmt', 'golint', 'govet'],
-" \}
+let g:ale_linters = {
+\   'go': ['gofmt', 'golint', 'govet'],
+\}
 
 
 " ------------------ Startify -------------------------------------
