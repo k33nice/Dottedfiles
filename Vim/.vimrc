@@ -656,7 +656,7 @@ set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 set undofile
 
-nmap path :let @+ = expand('%') <CR>
+nmap ;path :let @+ = expand('%') <CR>
 
 
 """"""""""""""""""""""""""""""
