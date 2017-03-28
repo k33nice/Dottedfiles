@@ -1,7 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " k33nice <k33nice@gmail.com>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ale_emit_conflict_warnings = 0
 call plug#begin('~/.vim/plugged')
 
 Plug 'jistr/vim-nerdtree-tabs'
@@ -37,7 +36,7 @@ Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'NBUT-Developers/extra-instant-markdown'
@@ -55,7 +54,6 @@ if exists("g:plugs['yajs.vim']")
     Plug 'othree/javascript-libraries-syntax.vim'
 endif
 Plug 'pangloss/vim-javascript'
-" Plug 'tpope/vim-fugitive'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
@@ -293,9 +291,11 @@ endif
 
 
 " ------------------ Neomake --------------------------------------
-let g:neomake_go_enabled_makers = ['go']
-autocmd! BufWritePost *.go Neomake
-autocmd InsertChange,TextChanged * update | Neomake
+if exists("g:plugs['neomake']")
+    let g:neomake_go_enabled_makers = ['go']
+    autocmd! BufWritePost *.go Neomake
+    autocmd InsertChange,TextChanged * update | Neomake
+endif
 
 
 " ------------------ ALE ------------------------------------------
@@ -656,7 +656,7 @@ set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 set undofile
 
-nmap ;path :let @+ = expand('%') <CR>
+nmap ,path :let @+ = expand('%') <CR>
 
 
 """"""""""""""""""""""""""""""
