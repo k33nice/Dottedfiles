@@ -407,7 +407,9 @@ set list listchars=tab:\|\ ,trail:·,nbsp:·
 let mapleader = ","
 let g:mapleader = ","
 
-autocmd BufWritePre * %s/\s\+$//e
+" trim whitespaces
+" autocmd BufWritePre * keepjumps %s/\s\+$//e
+autocmd BufWritePre * silent call TrimWhitespace()
 
 map <leader>m <Esc>:set expandtab tabstop=2 shiftwidth=2<CR>
 
@@ -766,4 +768,9 @@ function! LargeFile()
     AirlineToggle
 endfunction
 
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    %s/\s\+$//e
+    call winrestview(l:save)
+endfun
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
