@@ -229,6 +229,7 @@ autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('
 " ------------------- Easyalign ------------------------------
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+let g:easy_align_ignore_groups = ['String']
 
 " ------------------- Supertab -------------------------------
 " for neocomplete (forward tab cycle)
@@ -373,7 +374,7 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:instant_markdown_autostart = 0
 
 " ------------------- devdocsbuf ------------------------------------
-let g:devdocsbuf_devdocs_path = "/Users/k33nice/hack/libs/devdocs/public/docs/"
+let g:devdocsbuf_devdocs_path = "/Users/k33nice/dev/libs/devdocs/public/docs/"
 nmap man :Devdocsbuf<cr>
 
 " ------------------- nerdtree-git-plugin ---------------------------
@@ -487,7 +488,7 @@ nnoremap <leader>jq :call ToJSON()<CR>
 map <space> %
 
 map <leader>f :set foldmethod=indent<cr>zM<cr>
-map <leader>F :set foldmethod=manual<cr>zR<cr>
+map <leader>F :set nofoldenable<cr>zR<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
