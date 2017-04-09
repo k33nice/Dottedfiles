@@ -307,8 +307,11 @@ let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 let g:ale_emit_confilct_warnings = 0
+let g:ale_set_quickfix=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" nmap <silent> <C-k> :cp<CR>
+" nmap <silent> <C-j> :cn<CR>
 let g:ale_linters = {
 \   'go': ['gofmt', 'golint', 'govet'],
 \}
@@ -613,7 +616,6 @@ au TabLeave * let g:lasttab = tabpagenr()
 
 " formatopts
 autocmd FileType * setlocal formatoptions-=o
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
