@@ -57,6 +57,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
+Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -312,9 +313,9 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " nmap <silent> <C-k> :cp<CR>
 " nmap <silent> <C-j> :cn<CR>
-let g:ale_linters = {
-\   'go': ['gofmt', 'golint', 'govet'],
-\}
+" let g:ale_linters = {
+" \   'go': ['gofmt', 'golint', 'govet'],
+" \}
 
 
 " ------------------ Startify -------------------------------------
