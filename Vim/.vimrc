@@ -10,7 +10,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-obsession'
-" Plug 'Shougo/neocomplete.vim'
 Plug 'maralla/completor.vim', {'do': 'make js'}
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
@@ -127,7 +126,6 @@ endif
 
 " ------------------- Completor ---------------------------
 if exists("g:plugs['completor.vim']")
-    " let  g:completor_node_binary = '/Users/k33nice/.nvm/versions/node/v7.4.0/bin/node'
     let g:completor_gocode_binary = 'gocode'
     let g:ftplugin_sql_omni_key = '<Leader>sql'
 
@@ -700,6 +698,12 @@ set viminfo^=%
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Macros
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let @c='^v$hyA=="'
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:VSetSearch(cmd)
@@ -779,3 +783,4 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
+
