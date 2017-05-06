@@ -10,7 +10,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-obsession'
-Plug 'maralla/completor.vim', {'do': 'make js'}
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'maralla/completor.vim', {'do': 'make js'}
+endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
 Plug 'vim-airline/vim-airline'
@@ -57,6 +61,7 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
 Plug 'cespare/vim-toml'
+Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim'
 
 call plug#end()
 
@@ -197,9 +202,12 @@ let g:fzf_colors =
 
 if s:is_mac
     nnoremap <silent> <Esc>f :FZF<CR>
+elseif has('nvim')
+    nnoremap <silent> <M-f> :FZF<CR>
 else
     nnoremap <silent> <M-f> :FZF<CR>
 endif
+
 let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL --glob "!.git/*"'
 
 " ------------------- MultipleCursors ------------------------
@@ -305,6 +313,7 @@ let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
+let g:ale_sign_column_always = 1
 let g:ale_emit_confilct_warnings = 0
 let g:ale_set_quickfix=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
@@ -382,6 +391,17 @@ nmap man :Devdocsbuf<cr>
 
 " ------------------- nerdtree-git-plugin ---------------------------
 au ColorScheme * hi link NERDTreeGitStatusIgnored Title
+
+" ------------------------- vim-gist --------------------------------
+if s:is_mac
+    let g:gist_clip_command = 'pbcopy'
+else
+    let g:gist_clip_command = 'xclip -selection clipboard'
+endif
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_show_privates = 1
+let g:gist_post_private = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -783,4 +803,3 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
-
