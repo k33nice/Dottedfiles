@@ -12,6 +12,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-obsession'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'zchee/deoplete-go'
 else
   Plug 'maralla/completor.vim', {'do': 'make js'}
 endif
@@ -50,6 +51,7 @@ Plug 'mattn/emmet-vim'
 Plug 'sjl/gundo.vim'
 Plug 'othree/html5.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 " Plug 'othree/yajs.vim'
 if exists("g:plugs['yajs.vim']")
@@ -200,10 +202,10 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-if s:is_mac
-    nnoremap <silent> <Esc>f :FZF<CR>
-elseif has('nvim')
+if has('nvim')
     nnoremap <silent> <M-f> :FZF<CR>
+elseif s:is_mac
+    nnoremap <silent> <Esc>f :FZF<CR>
 else
     nnoremap <silent> <M-f> :FZF<CR>
 endif
@@ -366,8 +368,14 @@ endif
 let g:go_fmt_command = "goimports"
 let g:go_highlight_types = 1
 let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
 
-au FileType go map <buffer> <2-LeftMouse> :GoInfo<cr>
+au FileType go map <buffer> <2-LeftMouse> :GoDoc<cr>
 au FileType go map <silent> <buffer> <leader>d :GoInfo<cr>
 
 " ------------------- vim-table-mode --------------------------------
