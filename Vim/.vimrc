@@ -38,12 +38,12 @@ Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
+Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 " Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
-Plug 'NBUT-Developers/extra-instant-markdown'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
 Plug 'evanmiller/nginx-vim-syntax'
@@ -136,8 +136,9 @@ if exists("g:plugs['completor.vim']")
     let g:completor_gocode_binary = 'gocode'
     let g:ftplugin_sql_omni_key = '<Leader>sql'
 
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+
+    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -145,6 +146,12 @@ if exists("g:plugs['completor.vim']")
     " let g:completor_php_omni_trigger = '([$\w]{3,}|use\s*|->[$\w]*|::[$\w]*|implements\s*|extends\s*|class\s+[$\w]+|new\s*)$'
     set completeopt-=preview
 endif
+
+" ------------------- Deoplete ---------------------------
+if has('nvim')
+    let g:deoplete#enable_at_startup = 1
+endif
+
 
 " ------------------- CtrlSF --------------------------------
 nmap     <C-F>f <Plug>CtrlSFPrompt
@@ -317,14 +324,13 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 let g:ale_sign_column_always = 1
 let g:ale_emit_confilct_warnings = 0
-let g:ale_set_quickfix=1
+" let g:ale_set_quickfix = 1
+" let g:ale_open_list=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " nmap <silent> <C-k> :cp<CR>
 " nmap <silent> <C-j> :cn<CR>
-" let g:ale_linters = {
-" \   'go': ['gofmt', 'golint', 'govet'],
-" \}
+let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build']}
 
 
 " ------------------ Startify -------------------------------------
@@ -377,6 +383,7 @@ let g:go_highlight_structs = 1
 
 au FileType go map <buffer> <2-LeftMouse> :GoDoc<cr>
 au FileType go map <silent> <buffer> <leader>d :GoInfo<cr>
+au FileType go map <silent> <buffer> <leader>c :GoCoverageToggle<cr>
 
 " ------------------- vim-table-mode --------------------------------
 let g:table_mode_corner="|"
@@ -390,8 +397,10 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 " ------------------- dash ------------------------------------------
 " nmap <silent> <Esc>d <Plug>DashSearch
 
-" ------------------- vim-instant-markdown --------------------------
-let g:instant_markdown_autostart = 0
+" ------------------- vim-markdown-preview --------------------------
+let vim_markdown_preview_github=1
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_browser='Google Chrome'
 
 " ------------------- devdocsbuf ------------------------------------
 let g:devdocsbuf_devdocs_path = "/Users/k33nice/dev/libs/devdocs/public/docs/"
@@ -410,6 +419,10 @@ let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 let g:gist_show_privates = 1
 let g:gist_post_private = 1
+
+
+" -------------------- vim-indexed-search ---------------------------
+let g:indexed_search_dont_move=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -673,7 +686,8 @@ let &colorcolumn=join(range(121,999),",")
 
 " Fix syntax Highlight
 nmap <leader>r :syntax sync fromstart \| redraw! <cr>
-autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
+" autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
+" autocmd BufEnter * if getfsize(@%) < 1048576 | :set syn=on | endif
 
 " ------------------ Autofiletypes -------------------------------------
 au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
@@ -711,6 +725,7 @@ if !hasmapto("<Plug>VLToggle")
   nmap <unique> <Leader>vl <Plug>VLToggle
 endif
 let &cpo = s:save_cpo | unlet s:save_cpo
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
