@@ -59,6 +59,7 @@ if exists("g:plugs['yajs.vim']")
     Plug 'othree/javascript-libraries-syntax.vim'
 endif
 Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
@@ -324,7 +325,7 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 let g:ale_sign_column_always = 1
 let g:ale_emit_confilct_warnings = 0
-" let g:ale_set_quickfix = 1
+let g:ale_set_quickfix = 1
 " let g:ale_open_list=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -422,7 +423,7 @@ let g:gist_post_private = 1
 
 
 " -------------------- vim-indexed-search ---------------------------
-let g:indexed_search_dont_move=1
+" let g:indexed_search_dont_move=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -693,6 +694,15 @@ nmap <leader>r :syntax sync fromstart \| redraw! <cr>
 au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
 au BufRead,BufNewFile *php*.* if &ft == '' | setfiletype php | endif
 
+au BufRead,BufNewFile *.service set filetype=systemd
+au BufRead,BufNewFile *.timer set filetype=systemd
+au BufRead,BufNewFile *.mount set filetype=systemd
+au BufRead,BufNewFile *.target set filetype=systemd
+au BufRead,BufNewFile *.socket set filetype=systemd
+au BufRead,BufNewFile *.slice set filetype=systemd
+au BufRead,BufNewFile *.busname set filetype=systemd
+au BufRead,BufNewFile */systemd/*.path set filetype=systemd
+au BufRead,BufNewFile */systemd/*/override.conf set filetype=systemd
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
