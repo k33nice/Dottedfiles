@@ -12,9 +12,12 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-obsession'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'zchee/deoplete-go'
 else
-  Plug 'maralla/completor.vim', {'do': 'make js'}
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+  " Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
+  " Plug 'maralla/completor.vim', {'do': 'make js'}
 endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
@@ -30,6 +33,7 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
+Plug 'mileszs/ack.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'evidens/vim-twig'
 Plug 'ludovicchabant/vim-gutentags'
@@ -40,30 +44,28 @@ Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'vim-scripts/dbext.vim'
+" Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern'  }
 " Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
-Plug 'evanmiller/nginx-vim-syntax'
+" Plug 'evanmiller/nginx-vim-syntax'
 Plug 'mattn/emmet-vim'
 Plug 'sjl/gundo.vim'
 Plug 'othree/html5.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-" Plug 'othree/yajs.vim'
-if exists("g:plugs['yajs.vim']")
-    Plug 'othree/es.next.syntax.vim'
-    Plug 'othree/javascript-libraries-syntax.vim'
-endif
+Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
 Plug 'cespare/vim-toml'
+Plug 'elixir-editors/vim-elixir'
 Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim'
 
 call plug#end()
@@ -149,8 +151,10 @@ if exists("g:plugs['completor.vim']")
 endif
 
 " ------------------- Deoplete ---------------------------
-if has('nvim')
+if exists("g:plugs['deoplete.nvim']")
     let g:deoplete#enable_at_startup = 1
+    set completeopt-=preview
+    let g:ftplugin_sql_omni_key = '<Leader>sql'
 endif
 
 
@@ -226,18 +230,6 @@ nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
 nnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
 vnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
 
-if exists("g:plugs['neocomplete.vim']")
-autocmd VimEnter * NeoCompleteEnable    " Workaround to make multiple-cursors fast
-" << cut >>
-" Make multiple cursors fast with neocomplete
-function! Multiple_cursors_before()
-   silent! exe 'NeoCompleteDisable'
-endfunction
-
-function! Multiple_cursors_after()
-    silent! exe 'NeoCompleteEnable'
-endfunction
-endif
 
 " ------------------- Gitgutter ------------------------------
 autocmd BufEnter * sign define dummy
@@ -332,6 +324,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " nmap <silent> <C-k> :cp<CR>
 " nmap <silent> <C-j> :cn<CR>
 let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build']}
+" let g:ale_fixers = {'javascript': ['eslint']}
 
 
 " ------------------ Startify -------------------------------------
@@ -422,8 +415,24 @@ let g:gist_show_privates = 1
 let g:gist_post_private = 1
 
 
+" ------------------------- vim-gist --------------------------------
+let g:ackprg = 'ag --vimgrep --smart-case'
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
+
+
+" ----------------------- deoplete-go -------------------------------
+let g:deoplete#sources#go#gocode_binary = 'gocode'
+
+
 " -------------------- vim-indexed-search ---------------------------
 " let g:indexed_search_dont_move=1
+
+
+" ------------------------- vim-jsx ---------------------------------
+command! JSX call Jsx()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -447,7 +456,6 @@ filetype plugin on
 filetype indent on
 
 " listchars
-" set list listchars=tab:»·,trail:·,nbsp:·
 set list listchars=tab:\|\ ,trail:·,nbsp:·
 
 let mapleader = ","
@@ -681,9 +689,16 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-let &colorcolumn=join(range(121,999),",")
-" set colorcolumn=121
+
+function! SetColorColum()
+    let &colorcolumn=join(range(121,999),",")
+    highlight ColorColumn ctermbg=235 guibg=#2c2d27
+endfunction
+
+aug color_column
+  au!
+  au VimEnter * call SetColorColum()
+aug END
 
 " Fix syntax Highlight
 nmap <leader>r :syntax sync fromstart \| redraw! <cr>
@@ -835,4 +850,14 @@ fun! TrimWhitespace()
     %s/\s\+$//e
     call winrestview(l:save)
 endfun
+
+fun! Jsx()
+    if g:jsx_ext_required == 1
+        let g:jsx_ext_required = 0
+    else
+        let g:jsx_ext_required = 1
+    endif
+    execute ':e %'
+endfun
+
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
