@@ -197,6 +197,8 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 call airline#parts#define_function('ALE', 'ALEGetStatusLine')
 call airline#parts#define_condition('ALE', 'exists("*ALEGetStatusLine")')
 let g:airline_section_error = airline#section#create_right(['ALE'])
+let g:airline_highlighting_cache = 1
+set ttimeoutlen=50
 
 
 " ------------------- FZF -----------------------------------
@@ -317,14 +319,17 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 let g:ale_sign_column_always = 1
 let g:ale_emit_confilct_warnings = 0
-let g:ale_set_quickfix = 1
+let g:ale_set_quickfix = 0
+let g:ale_set_loclist = 0
+let g:ale_max_signs = 250
+let g:ale_open_list = 'on_save'
+let g:ale_echo_delay = 25
 " let g:ale_open_list=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " nmap <silent> <C-k> :cp<CR>
 " nmap <silent> <C-j> :cn<CR>
 let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build']}
-" let g:ale_fixers = {'javascript': ['eslint']}
 
 
 " ------------------ Startify -------------------------------------
@@ -647,6 +652,13 @@ endfunction
 
 let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " sunaku's vim/tmux 256color hack. more info here:
@@ -818,12 +830,6 @@ function! TabCloseLeft(bang)
   while tabpagenr() > 1
     exe 'tabclose' . a:bang . ' 1'
   endwhile
-endfunction
-
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
 endfunction
 
 function! ExecuteMacroOverVisualRange()
