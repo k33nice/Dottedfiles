@@ -224,6 +224,16 @@ else
     nnoremap <silent> <M-f> :FZF<CR>
 endif
 
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+nnoremap <silent> ,s :call FzfRgCurrWord()<CR>
+vnoremap <silent> ,s :call FzfSelected()<CR>
+
 let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL --glob "!.git/*"'
 
 " ------------------- MultipleCursors ------------------------
@@ -321,7 +331,7 @@ let g:ale_sign_column_always = 1
 let g:ale_emit_confilct_warnings = 0
 let g:ale_set_quickfix = 0
 let g:ale_set_loclist = 0
-let g:ale_max_signs = 250
+" let g:ale_max_signs = 250
 let g:ale_open_list = 'on_save'
 let g:ale_echo_delay = 25
 " let g:ale_open_list=1
@@ -330,6 +340,13 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " nmap <silent> <C-k> :cp<CR>
 " nmap <silent> <C-j> :cn<CR>
 let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build']}
+
+" command! AleSave call AleOnSave()
+
+" function! AleOnSave()
+"     let g:ale_lint_on_text_changed = 0
+"     call plug#load('ale')
+" endfunction
 
 
 " ------------------ Startify -------------------------------------
@@ -866,4 +883,25 @@ fun! Jsx()
     execute ':e %'
 endfun
 
+fu! FzfRgCurrWord()
+  let currWord = expand('<cword>')
+  if len(currWord) > 0
+    execute ':Rg '.currWord
+  else
+    execute ':Rg'
+  endif
+endfu
+
+fu! FzfSelected()
+    let reg_save = getreg('"')
+    let regtype_save = getregtype('"')
+    let cb_save = &clipboard
+    set clipboard&
+    normal! ""gvy
+    let selection = getreg('"')
+    call setreg('"', reg_save, regtype_save)
+    let &clipboard = cb_save
+
+    execute ':Rg '.selection
+endfu
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
