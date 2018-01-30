@@ -3,8 +3,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
+Plug 'jistr/vim-nerdtree-tabs' | Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -21,8 +20,8 @@ else
 endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/vim-easy-align'
@@ -52,7 +51,6 @@ Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
-" Plug 'evanmiller/nginx-vim-syntax'
 Plug 'mattn/emmet-vim'
 Plug 'sjl/gundo.vim'
 Plug 'othree/html5.vim'
@@ -189,16 +187,19 @@ aug sess
 aug END
 
 " ------------------- Airline -------------------------------
-set laststatus=2
-let g:airline_theme = 'tomorrow'
-let g:airline_extensions = ['tabline']
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 1
-call airline#parts#define_function('ALE', 'ALEGetStatusLine')
-call airline#parts#define_condition('ALE', 'exists("*ALEGetStatusLine")')
-let g:airline_section_error = airline#section#create_right(['ALE'])
-let g:airline_highlighting_cache = 1
-set ttimeoutlen=50
+if exists("g:plugs['vim-airline']")
+    set laststatus=2
+    let g:airline_theme = 'tomorrow'
+    let g:airline_extensions = ['tabline']
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#tab_nr_type = 1
+    let g:airline#extensions#tabline#show_tab_type = 0
+    " call airline#parts#define_function('ALE', 'ALEGetStatusLine')
+    " call airline#parts#define_condition('ALE', 'exists("*ALEGetStatusLine")')
+    " let g:airline_section_error = airline#section#create_right(['ALE'])
+    let g:airline_highlighting_cache = 1
+    set ttimeoutlen=50
+endif
 
 
 " ------------------- FZF -----------------------------------
@@ -226,13 +227,14 @@ endif
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
 nnoremap <silent> ,s :call FzfRgCurrWord()<CR>
 vnoremap <silent> ,s :call FzfSelected()<CR>
+cnoreabbrev rg Rg
 
 let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL --glob "!.git/*"'
 
@@ -331,9 +333,10 @@ let g:ale_sign_column_always = 1
 let g:ale_emit_confilct_warnings = 0
 let g:ale_set_quickfix = 0
 let g:ale_set_loclist = 0
-" let g:ale_max_signs = 250
+let g:ale_max_signs = 250
 let g:ale_open_list = 'on_save'
 let g:ale_echo_delay = 25
+let g:ale_line_delay = 500
 " let g:ale_open_list=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -629,6 +632,8 @@ let html_no_rendering=1
 " file > 50MB disble slow actions
 autocmd BufEnter * if getfsize(@%) > 52428800 | call LargeFile() | endif
 
+set laststatus=2
+set showtabline=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -719,15 +724,17 @@ set encoding=utf8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-function! SetColorColum()
-    let &colorcolumn=join(range(121,999),",")
-    highlight ColorColumn ctermbg=235 guibg=#2c2d27
-endfunction
+let &colorcolumn=join(range(121,999),",")
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+" function! SetColorColum()
+"     let &colorcolumn=join(range(121,999),",")
+"     highlight ColorColumn ctermbg=235 guibg=#2c2d27
+" endfunction
 
-aug color_column
-  au!
-  au VimEnter * call SetColorColum()
-aug END
+" aug color_column
+"   au!
+"   au VimEnter * call SetColorColum()
+" aug END
 
 " Fix syntax Highlight
 nmap <leader>r :syntax sync fromstart \| redraw! <cr>
@@ -747,6 +754,133 @@ au BufRead,BufNewFile *.slice set filetype=systemd
 au BufRead,BufNewFile *.busname set filetype=systemd
 au BufRead,BufNewFile */systemd/*.path set filetype=systemd
 au BufRead,BufNewFile */systemd/*/override.conf set filetype=systemd
+
+
+" --------------------- Tabs ans status -----------------------------
+hi Statusline ctermfg=8 ctermbg=14
+hi Tabline ctermbg=8
+
+" Statusline
+let g:currentmode={
+    \ 'n'  : 'NORMAL ',
+    \ 'no' : 'N·Operator Pending ',
+    \ 'v'  : 'VISUAL ',
+    \ 'V'  : 'V·Line ',
+    \ '' : 'V·Block ',
+    \ 's'  : 'Select ',
+    \ 'S'  : 'S·Line ',
+    \ '' : 'S·Block ',
+    \ 'i'  : 'INSERT ',
+    \ 'R'  : 'RREPLACE ',
+    \ 'Rv' : 'V·Replace ',
+    \ 'c'  : 'Command ',
+    \ 'cv' : 'Vim Ex ',
+    \ 'ce' : 'Ex ',
+    \ 'r'  : 'Prompt ',
+    \ 'rm' : 'More ',
+    \ 'r?' : 'Confirm ',
+    \ '!'  : 'Shell ',
+    \ 't'  : 'Terminal '
+    \}
+
+" Automatically change the statusline color depending on mode
+function! ChangeStatuslineColor()
+  if (mode() =~# '\v(n|no)')
+    exe 'hi! StatusLine ctermfg=037 ctermbg=15'
+  elseif (mode() =~# '\v(v|V)' || g:currentmode[mode()] ==# 'V·Block' || get(g:currentmode, mode(), '') ==# 't')
+    exe 'hi! StatusLine ctermfg=013 ctermbg=0'
+  elseif (mode() ==# 'i')
+    exe 'hi! StatusLine ctermfg=214 ctermbg=0'
+  else
+    exe 'hi! StatusLine ctermfg=006 ctermbg=15'
+  endif
+
+  return ''
+endfunction
+
+function! FileSize()
+  let bytes = getfsize(expand('%:p'))
+  if (bytes >= 1024)
+    let kbytes = bytes / 1024
+  endif
+  if (exists('kbytes') && kbytes >= 1000)
+    let mbytes = kbytes / 1000
+  endif
+
+  if bytes <= 0
+    return '0'
+  endif
+
+  if (exists('mbytes'))
+    return mbytes . 'MB '
+  elseif (exists('kbytes'))
+    return kbytes . 'KB '
+  else
+    return bytes . 'B '
+  endif
+endfunction
+
+function! ReadOnly()
+  if &readonly || !&modifiable
+    return 'R'
+  else
+    return ''
+endfunction
+
+set laststatus=2
+set statusline=
+set statusline+=%{ChangeStatuslineColor()}               " Changing the statusline color
+set statusline+=%0*\ %{toupper(g:currentmode[mode()])}   " Current mode
+set statusline+=%8*\ [%n]                                " buffernr
+set statusline+=%8*\ %<%F\ %{ReadOnly()}\ %m\ %w\        " File+path
+set statusline+=%#warningmsg#
+set statusline+=%*
+set statusline+=%9*\ %=                                  " Space
+set statusline+=%1*\ %{ALEGetStatusLine()}\              " ALE errors
+set statusline+=%8*\ %y\                                 " FileType
+set statusline+=%7*\ %{(&fenc!=''?&fenc:&enc)}\[%{&ff}]\ " Encoding & Fileformat
+set statusline+=%8*\ %-3(%{FileSize()}%)                 " File size
+set statusline+=%0*\ %3p%%\ %l:%3c\                      " Rownumber/total (%)
+
+hi User1 ctermfg=000 ctermbg=009
+hi User2 ctermfg=043
+hi User3 ctermfg=010
+hi User4 ctermfg=010
+hi User5 ctermfg=010
+hi User7 ctermfg=010
+hi User8 ctermfg=010
+hi User9 ctermfg=010
+
+
+" TABLINE
+
+hi TabModSel ctermbg=172 ctermfg=000
+hi TabMod ctermfg=172 ctermbg=8
+
+function! Tabline()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tab = i + 1
+    let winnr = tabpagewinnr(tab)
+    let buflist = tabpagebuflist(tab)
+    let bufnr = buflist[winnr - 1]
+    let bufname = bufname(bufnr)
+    let bufmodified = getbufvar(bufnr, "&mod")
+
+    let s .= '%' . tab . 'T'
+    let s .= (tab == tabpagenr() ? (bufmodified ? '%#TabModSel#' : '%#TabLineSel#') : (bufmodified ? '%#TabMod#' : '%#TabLine#'))
+
+    let s .= ' ' . tab . ' '
+    let s .= (bufname != '' ? fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
+
+  endfor
+
+  let s .= '%#TabLineFill#'
+
+  return s
+endfunction
+
+set tabline=%!Tabline()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -794,11 +928,14 @@ autocmd BufReadPost *
 set viminfo^=%
 
 
+nmap ,k :cp<CR>
+nmap ,j :cn<CR>
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Macros
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let @c='^v$hyA=="'
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -904,4 +1041,5 @@ fu! FzfSelected()
 
     execute ':Rg '.selection
 endfu
+
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
