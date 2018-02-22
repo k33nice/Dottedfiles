@@ -2,7 +2,6 @@
 " k33nice <k33nice@gmail.com>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-
 Plug 'jistr/vim-nerdtree-tabs' | Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -15,14 +14,9 @@ else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
-  " Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
-  " Plug 'maralla/completor.vim', {'do': 'make js'}
 endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
@@ -44,15 +38,11 @@ Plug 'k33nice/vim_snippets'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'vim-scripts/dbext.vim'
-" Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern'  }
-" Plug 'neomake/neomake'
 Plug 'henrik/vim-indexed-search'
 Plug 'mhinz/vim-startify'
 Plug 'w0rp/ale'
 Plug 'chase/vim-ansible-yaml'
 Plug 'mattn/emmet-vim'
-Plug 'sjl/gundo.vim'
 Plug 'othree/html5.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
@@ -60,7 +50,6 @@ Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'thomasthune/devdocsbuf'
 Plug 'jamessan/vim-gnupg'
 Plug 'cespare/vim-toml'
 Plug 'elixir-editors/vim-elixir'
@@ -95,58 +84,6 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDRemoveExtraSpaces = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
-
-" ------------------- Neocomplete ---------------------------
-if exists("g:plugs['neocomplete.vim']")
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-
-    "Set minimum syntax keyword length
-    let g:neocomplete#sources#syntax#min_keyword_length = 2
-    " Set max tags cache
-    let g:neocomplete#sources#tags#cache_limit_size = 1024000
-
-    " Enable insert mode moving
-    let g:neocomplete#enable_insert_char_pre = 1
-    " inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ neocomplete#start_manual_complete()
-    function! s:check_back_space() abort "{{{
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction"}}}
-
-    " Redefine ft-sql annoying key
-    let g:ftplugin_sql_omni_key = '<Leader>sql'
-
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-        let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    set completeopt-=preview
-endif
-
-" ------------------- Completor ---------------------------
-if exists("g:plugs['completor.vim']")
-    let g:completor_gocode_binary = 'gocode'
-    let g:ftplugin_sql_omni_key = '<Leader>sql'
-
-
-    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType php setlocal omnifunc=syntaxcomplete#Complete
-    " let g:completor_php_omni_trigger = '([$\w]{3,}|use\s*|->[$\w]*|::[$\w]*|implements\s*|extends\s*|class\s+[$\w]+|new\s*)$'
-    set completeopt-=preview
-endif
 
 " ------------------- Deoplete ---------------------------
 if exists("g:plugs['deoplete.nvim']")
@@ -239,10 +176,12 @@ cnoreabbrev rg Rg
 let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL --glob "!.git/*"'
 
 " ------------------- MultipleCursors ------------------------
-let g:multi_cursor_quit_key='<C-c>'
-nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
-nnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
-vnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
+if exists("g:plugs['YankRing.vim']")
+  let g:multi_cursor_quit_key='<C-c>'
+  nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
+  nnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
+  vnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
+endif
 
 
 " ------------------- Gitgutter ------------------------------
@@ -282,26 +221,6 @@ endfunction
 " au VimEnter * call JSTAG_GEN_PRJ()
 
 
-" ------------------ PDV -------------------------------------
-let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
-nnoremap mn :call pdv#DocumentWithSnip()<CR>
-
-
-" ------------------ Yankring -------------------------------------
-if exists("g:plugs['YankRing.vim']")
-    silent execute '!mkdir -p ~/.vim/yankringhistory'
-    let g:yankring_history_dir = $HOME."/.vim/yankringhistory"
-    " disable g
-    let g:yankring_paste_using_g = 0
-    if (s:is_mac)
-        let g:yankring_replace_n_pkey='<Esc>p'
-        let g:yankring_replace_n_nkey = '<Esc>n'
-    else
-        let g:yankring_replace_n_pkey='<M-p>'
-        let g:yankring_replace_n_nkey = '<M-n>'
-    endif
-endif
-
 " ------------------ yankstack -------------------------------------
 if exists("g:plugs['vim-yankstack']")
     if (s:is_mac)
@@ -312,14 +231,6 @@ if exists("g:plugs['vim-yankstack']")
         nmap <M-n> <Plug>yankstack_substitute_newer_paste
     endif
     let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
-endif
-
-
-" ------------------ Neomake --------------------------------------
-if exists("g:plugs['neomake']")
-    let g:neomake_go_enabled_makers = ['go']
-    autocmd! BufWritePost *.go Neomake
-    autocmd InsertChange,TextChanged * update | Neomake
 endif
 
 
@@ -337,11 +248,8 @@ let g:ale_max_signs = 250
 let g:ale_open_list = 'on_save'
 let g:ale_echo_delay = 25
 let g:ale_line_delay = 500
-" let g:ale_open_list=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-" nmap <silent> <C-k> :cp<CR>
-" nmap <silent> <C-j> :cn<CR>
 let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build']}
 
 " command! AleSave call AleOnSave()
@@ -368,12 +276,6 @@ autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_react = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
 
-" ------------------ Gundo ----------------------------------------
-nnoremap <F5> :GundoToggle<CR>
-let g:gundo_width = 60
-let g:gundo_preview_height = 40
-let g:gundo_preview_bottom = 1
-
 " ------------------ vim-javascript -------------------------------
 if exists("g:plugs['vim-javascript']")
     aug vim_javascript
@@ -385,9 +287,6 @@ if exists("g:plugs['vim-javascript']")
     aug END
 endif
 
-" ----------------------- yajs ------------------------------------
-if exists("g:plugs['yajs.vim']")
-endif
 
 " ----------------------- vim-go ------------------------------------
 let g:go_fmt_command = "goimports"
@@ -413,17 +312,11 @@ let g:table_mode_corner="|"
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
-" ------------------- dash ------------------------------------------
-" nmap <silent> <Esc>d <Plug>DashSearch
-
 " ------------------- vim-markdown-preview --------------------------
 let vim_markdown_preview_github=1
 let vim_markdown_preview_hotkey='<C-m>'
 let vim_markdown_preview_browser='Google Chrome'
 
-" ------------------- devdocsbuf ------------------------------------
-let g:devdocsbuf_devdocs_path = "/Users/k33nice/dev/libs/devdocs/public/docs/"
-nmap man :Devdocsbuf<cr>
 
 " ------------------- nerdtree-git-plugin ---------------------------
 au ColorScheme * hi link NERDTreeGitStatusIgnored Title
@@ -452,10 +345,6 @@ cnoreabbrev AG Ack
 let g:deoplete#sources#go#gocode_binary = 'gocode'
 
 
-" -------------------- vim-indexed-search ---------------------------
-" let g:indexed_search_dont_move=1
-
-
 " ------------------------- vim-jsx ---------------------------------
 command! JSX call Jsx()
 
@@ -475,6 +364,7 @@ set history=700
 set ttyfast
 
 set path+=**
+set guicursor=
 
 " Enable filetype plugins
 filetype plugin on
@@ -836,7 +726,7 @@ set statusline+=%8*\ %<%F\ %{ReadOnly()}\ %m\ %w\        " File+path
 set statusline+=%#warningmsg#
 set statusline+=%*
 set statusline+=%9*\ %=                                  " Space
-set statusline+=%1*\ %{ALEGetStatusLine()}\              " ALE errors
+" set statusline+=%1*\ %{ALEGetStatusLine()}\              " ALE errors
 set statusline+=%8*\ %y\                                 " FileType
 set statusline+=%7*\ %{(&fenc!=''?&fenc:&enc)}\[%{&ff}]\ " Encoding & Fileformat
 set statusline+=%8*\ %-3(%{FileSize()}%)                 " File size
