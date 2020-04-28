@@ -3,25 +3,35 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'jistr/vim-nerdtree-tabs' | Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
+" Plug 'mcchrish/nnn.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
+
+Plug 'arthurxavierx/vim-caser'
 Plug 'tpope/vim-obsession'
+
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  " Plug 'Shougo/deoplete.nvim'
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'roxma/vim-hug-neovim-rpc'
 endif
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'zxqfl/tabnine-vim'
+Plug 'sebdah/vim-delve'
+
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-utils/vim-husk'
 Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/committia.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-abolish'
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'ervandew/supertab'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+" Plug 'ervandew/supertab'
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
@@ -35,18 +45,22 @@ Plug 'tpope/vim-repeat'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
 Plug 'k33nice/vim_snippets'
-Plug 'JamshedVesuna/vim-markdown-preview'
+
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
+Plug 'kamykn/popup-menu.nvim'
 Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
 Plug 'vim-scripts/dbext.vim'
-Plug 'henrik/vim-indexed-search'
+Plug 'google/vim-searchindex'
 Plug 'mhinz/vim-startify'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'chase/vim-ansible-yaml'
 Plug 'mattn/emmet-vim'
 Plug 'othree/html5.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-Plug 'zchee/deoplete-go', {'do': 'make'}
+" Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'dhruvasagar/vim-table-mode'
@@ -54,9 +68,21 @@ Plug 'jamessan/vim-gnupg'
 Plug 'cespare/vim-toml'
 Plug 'elixir-editors/vim-elixir'
 Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim'
+Plug 'sgur/vim-editorconfig'
+Plug 'eshion/vim-sync' | Plug 'skywind3000/asyncrun.vim'
+Plug 'wincent/terminus'
+Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
+
+Plug 'zivyangll/git-blame.vim'
+" Plug 'vim-vdebug/vdebug'
+
+Plug 'wakatime/vim-wakatime'
+" Plug 'reedes/vim-wordy'
+
+Plug 'kamykn/spelunker.vim'
 
 call plug#end()
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helpers
@@ -71,12 +97,21 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let python_highlight_all = 1
 " ------------------ NERDTree -------------------------------
 let g:NERDTreeWinPos = "right"
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 map <F3> :NERDTreeToggle<CR>
-map <F4> :NERDTreeTabsToggle<CR>
+" map <F4> :NERDTreeTabsToggle<CR>
+" ----------------------- NNN -------------------------------
+" let g:nnn#layout = 'split' " or vertical split, tabedit etc.
+" let g:nnn#layout = { 'right': '~20%'  } " or right, up, down"
+
+
+" ------------------ PDV -------------------------------------
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+nnoremap mn :call pdv#DocumentWithSnip()<CR>
 
 " ------------------ NERDCommenter --------------------------
 let g:NERDSpaceDelims = 1
@@ -84,13 +119,51 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDRemoveExtraSpaces = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
+let g:NERDCustomDelimiters={
+	\ 'javascript': { 'left': '//', 'right': '', 'leftAlt': '{/*', 'rightAlt': '*/}' },
+\}
 
 " ------------------- Deoplete ---------------------------
 if exists("g:plugs['deoplete.nvim']")
     let g:deoplete#enable_at_startup = 1
     set completeopt-=preview
     let g:ftplugin_sql_omni_key = '<Leader>sql'
+    let g:deoplete#file#enable_buffer_path = 1
+    let g:deoplete#auto_refresh_delay = 2
+    let g:deoplete#auto_complete_delay = 50
 endif
+
+" ---------------------- CoC -----------------------------
+set shortmess+=c
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <C-t> coc#refresh()
+nnoremap <silent> ,, :call CocActionAsync('showSignatureHelp')<CR>
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+
+let g:ftplugin_sql_omni_key = '<Leader>sql'
 
 
 " ------------------- CtrlSF --------------------------------
@@ -131,9 +204,6 @@ if exists("g:plugs['vim-airline']")
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1
     let g:airline#extensions#tabline#show_tab_type = 0
-    " call airline#parts#define_function('ALE', 'ALEGetStatusLine')
-    " call airline#parts#define_condition('ALE', 'exists("*ALEGetStatusLine")')
-    " let g:airline_section_error = airline#section#create_right(['ALE'])
     let g:airline_highlighting_cache = 1
     set ttimeoutlen=50
 endif
@@ -156,6 +226,8 @@ let g:fzf_colors =
 
 if has('nvim')
     nnoremap <silent> <M-f> :FZF<CR>
+elseif has('gui_macvim')
+    nnoremap <silent> <M-F> :FZF<CR>
 elseif s:is_mac
     nnoremap <silent> <Esc>f :FZF<CR>
 else
@@ -171,9 +243,12 @@ command! -bang -nargs=* Rg
 
 nnoremap <silent> ,s :call FzfRgCurrWord()<CR>
 vnoremap <silent> ,s :call FzfSelected()<CR>
+vnoremap <silent> ,f <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
+
 cnoreabbrev rg Rg
 
-let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL --glob "!.git/*"'
+let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL -g "!.git/*" -g "!node_modules" -g "!vendor"'
+
 
 " ------------------- MultipleCursors ------------------------
 if exists("g:plugs['YankRing.vim']")
@@ -185,8 +260,15 @@ endif
 
 
 " ------------------- Gitgutter ------------------------------
-autocmd BufEnter * sign define dummy
-autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+if exists('&signcolumn')  " Vim 7.4.2201
+  set signcolumn=yes
+else
+  let g:gitgutter_sign_column_always = 1
+endif
+let g:gitgutter_sign_allow_clobber = 1
+
+" autocmd BufEnter * sign define dummy
+" autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
 " ------------------- Easyalign ------------------------------
 xmap ga <Plug>(EasyAlign)
@@ -194,12 +276,15 @@ nmap ga <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = ['String']
 
 " ------------------- Supertab -------------------------------
-" for neocomplete (forward tab cycle)
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " ------------------- UltiSnips -------------------------------
 
-if (s:is_mac)
+if has('nvim')
+    let g:UltiSnipsExpandTrigger="<M-e>"
+    let g:UltiSnipsJumpForwardTrigger="<M-j>"
+    let g:UltiSnipsJumpBackwardTrigger="<M-k>"
+elseif (s:is_mac)
     let g:UltiSnipsExpandTrigger="<Esc>e"
     let g:UltiSnipsJumpForwardTrigger="<Esc>j"
     let g:UltiSnipsJumpBackwardTrigger="<Esc>k"
@@ -223,7 +308,10 @@ endfunction
 
 " ------------------ yankstack -------------------------------------
 if exists("g:plugs['vim-yankstack']")
-    if (s:is_mac)
+    if has('nvim')
+        nmap <M-p> <Plug>yankstack_substitute_older_paste
+        nmap <M-n> <Plug>yankstack_substitute_newer_paste
+    elseif (s:is_mac)
         nmap <Esc>p <Plug>yankstack_substitute_older_paste
         nmap <Esc>n <Plug>yankstack_substitute_newer_paste
     else
@@ -238,26 +326,20 @@ endif
 let g:ale_set_highlights = 0
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
+" let g:ale_statusline_format = ['⨉ %d', '⚠ %d','⬥ ok']
 let g:ale_javascript_eslint_executable  = 'eslint'
 let g:ale_sign_column_always = 1
-let g:ale_emit_confilct_warnings = 0
 let g:ale_set_quickfix = 0
 let g:ale_set_loclist = 0
-let g:ale_max_signs = 250
-let g:ale_open_list = 'on_save'
+let g:ale_max_signs = 100
 let g:ale_echo_delay = 25
-let g:ale_line_delay = 500
+let g:ale_lint_delay = 1000
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build']}
-
-" command! AleSave call AleOnSave()
-
-" function! AleOnSave()
-"     let g:ale_lint_on_text_changed = 0
-"     call plug#load('ale')
-" endfunction
+let g:ale_linters = {'go': ['gofmt', 'golint', 'go vet', 'go build'], 'php': ['php', 'phpcs', 'phpmd']}
+let g:ale_php_phpmd_ruleset = $HOME.'/phpmd.xml'
+let g:ale_go_gopls_executable = 'gopls'
+let g:ale_go_gopls_options = '--mode stdio'
 
 
 " ------------------ Startify -------------------------------------
@@ -298,10 +380,15 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
+let g:go_info_mode = 'guru'
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+" let g:go_def_mapping_enabled = 0
 
 au FileType go map <buffer> <2-LeftMouse> :GoDoc<cr>
 au FileType go map <silent> <buffer> <leader>d :GoInfo<cr>
 au FileType go map <silent> <buffer> <leader>c :GoCoverageToggle<cr>
+au FileType go map <silent> <buffer> <F5> :GoRun<cr>
 
 " ------------------- vim-table-mode --------------------------------
 let g:table_mode_corner="|"
@@ -311,6 +398,7 @@ let g:table_mode_corner="|"
 " ------------------- auto-pairs ------------------------------------
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsShortcutFastWrap = '<C-e>'
+let g:AutoPairsShortcutToggle = '<M-v>'
 
 " ------------------- vim-markdown-preview --------------------------
 let vim_markdown_preview_github=1
@@ -344,9 +432,79 @@ cnoreabbrev AG Ack
 " ----------------------- deoplete-go -------------------------------
 let g:deoplete#sources#go#gocode_binary = 'gocode'
 
+" ----------------------- phpcd -------------------------------------
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = ['omni']
+
 
 " ------------------------- vim-jsx ---------------------------------
 command! JSX call Jsx()
+
+" ------------------------- vim-sync --------------------------------
+let g:asyncrun_silent=1
+
+function! ToggleSync()
+    if !exists('#vim_sync#BufWritePost')
+        augroup vim_sync
+            au!
+            autocmd BufWritePost * silent call SyncUploadFile()
+        augroup END
+    else
+        augroup vim_sync
+            au!
+        augroup END
+    endif
+endfunction
+
+nnoremap <F9> :call ToggleSync()<CR>
+call ToggleSync()
+
+""""" EXAMPLE .sync file
+"
+" #!/bin/sh
+" if [ "upload" == $1 ];then
+"     rsync -azcuv  `dirname $0`/$2/$3 dev-sandbox:playgrounds/packages/manage/okrykovliuk/$2/$3
+" elif [ 'download' == $1 ];then
+"     rsync -azcuv  dev-sandbox:playgrounds/packages/manage/okrykovliuk/$2/$3 `dirname $0`/$2/$3
+" fi
+
+" ------------------------- table-mode --------------------------------
+let g:table_mode_tableize_map = '<Leader>ttt'
+
+
+" --------------------------- terminus --------------------------------
+let g:TerminusCursorShape=0
+
+
+" -------------------------- git-blame --------------------------------
+map ,b :<C-u>call gitblame#echo()<CR>
+
+
+" ------------------------- coc-explorer ------------------------------
+let g:coc_explorer_global_presets = {
+\   '.vim': {
+\      'root-uri': '~/.vim',
+\   },
+\   'floating': {
+\      'position': 'floating',
+\   },
+\   'floatingLeftside': {
+\      'position': 'floating',
+\      'floating-position': 'left-center',
+\      'floating-width': 50,
+\   },
+\   'floatingRightside': {
+\      'position': 'floating',
+\      'floating-position': 'left-center',
+\      'floating-width': 50,
+\   },
+\   'simplify': {
+\     'file.child.template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+\   }
+\ }
+
+" Use preset argument to open it
+nmap <F4> :CocCommand explorer <CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -401,8 +559,11 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
+" set clipboard+=unnamedplus
+
 " Select last pasted
-nnoremap gp `[v`]
+
+nnoremap <leader>lp `[v`]
 
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
@@ -412,6 +573,10 @@ map <leader><Right> :Tabcloseright<CR>
 nnoremap <Leader>w :w<CR>
 
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+
+set updatetime=200
+
+
 
 " move vertically by visual line  -- won't skip over wrapped lines
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -455,9 +620,16 @@ nnoremap <leader>jq :call ToJSON()<CR>
 
 map <space> %
 
-map <leader>f :set foldmethod=indent<cr>zM<cr>
-map <leader>F :set nofoldenable<cr>zR<cr>
+map <leader>z :set foldmethod=indent<cr>zM<cr>
+map <leader>a :set nofoldenable<cr>zR<cr>
 
+
+" Search only in visual Selection
+if s:is_mac
+    vnoremap <Esc>/ <Esc>/\%V
+else
+    vnoremap <M-/> <Esc>/\%V
+end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -521,12 +693,13 @@ let html_no_rendering=1
 
 " file > 50MB disble slow actions
 autocmd BufEnter * if getfsize(@%) > 52428800 | call LargeFile() | endif
+autocmd BufEnter *.php if line('$') > 2000 | call IncreaseRDT() | endif
 
 set laststatus=2
 set showtabline=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+" => Text, tab and indent related word6
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
@@ -551,27 +724,27 @@ set splitbelow
 set splitright
 
 "" Auto PASTE when paste in insert mode
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-    return a:s
-  endif
+" function! WrapForTmux(s)
+"   if !exists('$TMUX')
+"     return a:s
+"   endif
 
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
+"   let tmux_start = "\<Esc>Ptmux;"
+"   let tmux_end = "\<Esc>\\"
 
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
+"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+" endfunction
 
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
-endfunction
+" function! XTermPasteBegin()
+"   set pastetoggle=<Esc>[201~
+"   set paste
+"   return ""
+" endfunction
 
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " sunaku's vim/tmux 256color hack. more info here:
 " https://github.com/ninrod/tricks/blob/master/shell/tmux.md#sunakus-hack-for-fixing-256-colors-colorschemes-for-vim-inside-tmux
@@ -590,11 +763,36 @@ au TabLeave * let g:lasttab = tabpagenr()
 " formatopts
 autocmd FileType * setlocal formatoptions-=o
 
+noremap <leader>dd :call DeleteHiddenBuffers()<CR>
+
+" Spell checking
+function! ToggleSpell()
+  let g:myLang=g:myLang+1
+  if g:myLang>=len(g:myLangList) | let g:myLang=0 | endif
+  if g:myLang==0
+    setlocal nospell
+  else
+    execute "setlocal spell spelllang=".get(g:myLangList, g:myLang)
+  endif
+endfunction
+
+let g:myLang=0
+let g:myLangList=["nospell","ru,en"]
+" nmap <silent> <F7> :call ToggleSpell()<CR>
+" autocmd BufReadPost * call ToggleSpell()
+
+let g:enable_spelunker_vim = 0
+nmap <silent> <F7> :call spelunker#toggle#toggle()<CR>
+
+let g:trim_whitespace = 1
+nnoremap <F8> :call ToggleTrimWhitespace()<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable asynta  highlighting
+" Enable syntax  highlighting
 syntax enable
+autocmd Syntax * syntax keyword Todo NOTE TODO FIXME XXX HACK containedin=.*Comment.*
 
 " ALE, neomake error sign
 augroup error_signs
@@ -606,6 +804,7 @@ augroup END
 set t_Co=256
 set background=dark
 colorscheme PaperColor
+" colorscheme gruvbox
 " colorscheme neodark
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -630,6 +829,9 @@ highlight ColorColumn ctermbg=235 guibg=#2c2d27
 nmap <leader>r :syntax sync fromstart \| redraw! <cr>
 " autocmd BufEnter * if getfsize(@%) < 1048576 | :syntax sync fromstart | endif
 " autocmd BufEnter * if getfsize(@%) < 1048576 | :set syn=on | endif
+
+hi clear SpellBad
+hi SpellBad cterm=underline
 
 " ------------------ Autofiletypes -------------------------------------
 au BufRead,BufNewFile /etc/nginx/*,*nginx*/*.conf if &ft == '' | setfiletype nginx | endif
@@ -741,7 +943,6 @@ hi User7 ctermfg=010
 hi User8 ctermfg=010
 hi User9 ctermfg=010
 
-
 " TABLINE
 
 hi TabModSel ctermbg=172 ctermfg=000
@@ -772,6 +973,9 @@ endfunction
 
 set tabline=%!Tabline()
 
+" XXX: Fix for neovim
+hi Visual cterm=reverse ctermfg=16 ctermbg=103 gui=reverse guibg=DarkGray
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -781,7 +985,7 @@ set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 set undofile
 
-nmap ,path :let @+ = expand('%') <CR>
+nmap ,pp :let @+ = expand('%') <CR>
 
 
 """"""""""""""""""""""""""""""
@@ -892,13 +1096,29 @@ function! LargeFile()
     set syntax=off
     set nowrap
     NoMatchParen
-    AirlineToggle
 endfunction
 
+function! IncreaseRDT()
+    set rdt=90000
+endfunction
+
+fun! ToggleTrimWhitespace()
+    if g:trim_whitespace
+        let g:trim_whitespace = 0
+    else
+        let g:trim_whitespace = 1
+    endif
+endfun
+
 fun! TrimWhitespace()
-    let l:save = winsaveview()
-    %s/\s\+$//e
-    call winrestview(l:save)
+    if (line('$') < 8000) && g:trim_whitespace
+        let l:save = winsaveview()
+        try
+            keeppatterns %s/\s\+$//e
+        finally
+            call winrestview(l:save)
+        endtry
+    endif
 endfun
 
 fun! Jsx()
@@ -931,5 +1151,46 @@ fu! FzfSelected()
 
     execute ':Rg '.selection
 endfu
+
+function! s:getVisualSelection()
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+
+    if len(lines) == 0
+        return ""
+    endif
+
+    let lines[-1] = lines[-1][:column_end - (&selection == "inclusive" ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+
+    return join(lines, "\n")
+endfunction
+
+function! DeleteHiddenBuffers()
+    let tpbl=[]
+    call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+    for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
+        silent execute 'bwipeout' buf
+    endfor
+endfunction
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+" show hi group under cursor
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 
 """""""""""""""""""""" END """""""""""""""""""""""""""""""""""""""""""""""""""""""
