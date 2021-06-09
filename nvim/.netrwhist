@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/Users/k33nice/dev/work/tyrell/converter/out'
+let g:netrw_dirhist_7='/Users/k33nice/dev/work/tyrell/converter/iii'
+let g:netrw_dirhist_6='/Users/k33nice/dev/work/tyrell/converter/outip'
+let g:netrw_dirhist_5='/Users/k33nice/dev/work/tyrell/converter/oo'
+let g:netrw_dirhist_4='/Users/k33nice/dev/work/tyrell/visa-bin'
+let g:netrw_dirhist_3='/Users/k33nice/dev/work/tyrell/go/drop'
+let g:netrw_dirhist_2='/Users/k33nice/dev/work/tyrell/any-multi'
+let g:netrw_dirhist_1='/Users/k33nice/dev/tuts/exercism/rust/grep/src'
+let g:netrw_dirhist_0='/Users/k33nice/dev/work/tyrell/opt_node_modules/iso8583'
+let g:netrw_dirhist_9='/Users/k33nice/dev/work/tyrell/opt_node_modules/iso8583/iso8583'

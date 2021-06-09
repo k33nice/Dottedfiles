@@ -13,13 +13,6 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'arthurxavierx/vim-caser'
 Plug 'tpope/vim-obsession'
 
-if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  " Plug 'Shougo/deoplete.nvim'
-  " Plug 'roxma/nvim-yarp'
-  " Plug 'roxma/vim-hug-neovim-rpc'
-endif
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'zxqfl/tabnine-vim'
 Plug 'sebdah/vim-delve'
@@ -50,7 +43,8 @@ Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
 Plug 'kamykn/popup-menu.nvim'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'ap/vim-css-color'
+" Plug 'ap/vim-css-color'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'vim-scripts/dbext.vim'
 Plug 'google/vim-searchindex'
 Plug 'mhinz/vim-startify'
@@ -64,7 +58,7 @@ Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' 
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'jamessan/vim-gnupg'
+" Plug 'jamessan/vim-gnupg'
 Plug 'cespare/vim-toml'
 Plug 'elixir-editors/vim-elixir'
 Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim'
@@ -81,6 +75,12 @@ Plug 'wakatime/vim-wakatime'
 " Plug 'reedes/vim-wordy'
 
 Plug 'kamykn/spelunker.vim'
+" Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'liuchengxu/graphviz.vim'
+Plug 'gyim/vim-boxdraw'
+Plug 'aklt/plantuml-syntax'
+Plug 'salsifis/vim-transpose'
+
 
 call plug#end()
 
@@ -226,10 +226,11 @@ let g:fzf_colors =
 
 if has('nvim')
     nnoremap <silent> <M-f> :FZF<CR>
+    nnoremap <silent> <M-q> :call fzf#run({'source': 'fd --type f -HI', 'sink': 'tabedit'})<CR>
 elseif has('gui_macvim')
     nnoremap <silent> <M-F> :FZF<CR>
 elseif s:is_mac
-    nnoremap <silent> <Esc>f :FZF<CR>
+    " nnoremap <silent> <Esc>f :FZF<CR>
 else
     nnoremap <silent> <M-f> :FZF<CR>
 endif
@@ -247,16 +248,11 @@ vnoremap <silent> ,f <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
 
 cnoreabbrev rg Rg
 
-let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL -g "!.git/*" -g "!node_modules" -g "!vendor"'
-
-
-" ------------------- MultipleCursors ------------------------
-if exists("g:plugs['YankRing.vim']")
-  let g:multi_cursor_quit_key='<C-c>'
-  nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
-  nnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
-  vnoremap <silent> <Esc>l :MultipleCursorsFind <C-R>/<CR>
-endif
+" let $FZF_DEFAULT_COMMAND = 'rg --files -uuuL -g "!.git/*" -g "!node_modules" -g "!vendor" -g "!coverage"'
+let $FZF_DEFAULT_COMMAND = 'fd --type f --follow -H -E ".git/*"'
+" Path completion with custom source command
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
 
 
 " ------------------- Gitgutter ------------------------------
@@ -285,9 +281,9 @@ if has('nvim')
     let g:UltiSnipsJumpForwardTrigger="<M-j>"
     let g:UltiSnipsJumpBackwardTrigger="<M-k>"
 elseif (s:is_mac)
-    let g:UltiSnipsExpandTrigger="<Esc>e"
-    let g:UltiSnipsJumpForwardTrigger="<Esc>j"
-    let g:UltiSnipsJumpBackwardTrigger="<Esc>k"
+    " let g:UltiSnipsExpandTrigger="<Esc>e"
+    " let g:UltiSnipsJumpForwardTrigger="<Esc>j"
+    " let g:UltiSnipsJumpBackwardTrigger="<Esc>k"
 else
     let g:UltiSnipsExpandTrigger="<M-e>"
     let g:UltiSnipsJumpForwardTrigger="<M-j>"
@@ -312,8 +308,8 @@ if exists("g:plugs['vim-yankstack']")
         nmap <M-p> <Plug>yankstack_substitute_older_paste
         nmap <M-n> <Plug>yankstack_substitute_newer_paste
     elseif (s:is_mac)
-        nmap <Esc>p <Plug>yankstack_substitute_older_paste
-        nmap <Esc>n <Plug>yankstack_substitute_newer_paste
+        " nmap <Esc>p <Plug>yankstack_substitute_older_paste
+        " nmap <Esc>n <Plug>yankstack_substitute_newer_paste
     else
         nmap <M-p> <Plug>yankstack_substitute_older_paste
         nmap <M-n> <Plug>yankstack_substitute_newer_paste
@@ -507,6 +503,10 @@ let g:coc_explorer_global_presets = {
 nmap <F4> :CocCommand explorer <CR>
 
 
+" ------------------------- coc-explorer ------------------------------
+set termguicolors
+lua require'colorizer'.setup()
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -603,12 +603,12 @@ nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
-if s:is_mac
-  nmap <Esc>k <M-k>
-  nmap <Esc>j <M-j>
-  vmap <Esc>j <M-j>
-  vmap <Esc>k <M-k>
-endif
+" if s:is_mac
+"   nmap <Esc>k <M-k>
+"   nmap <Esc>j <M-j>
+"   vmap <Esc>j <M-j>
+"   vmap <Esc>k <M-k>
+" endif
 
 noremap <C-c> <ESC>
 vnoremap <C-c> <ESC>
@@ -625,11 +625,11 @@ map <leader>a :set nofoldenable<cr>zR<cr>
 
 
 " Search only in visual Selection
-if s:is_mac
-    vnoremap <Esc>/ <Esc>/\%V
-else
+" if s:is_mac
+    " vnoremap <Esc>/ <Esc>/\%V
+" else
     vnoremap <M-/> <Esc>/\%V
-end
+" end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -797,8 +797,8 @@ autocmd Syntax * syntax keyword Todo NOTE TODO FIXME XXX HACK containedin=.*Comm
 " ALE, neomake error sign
 augroup error_signs
     au!
-    au ColorScheme * hi NeomakeErrorSign ctermfg=125
-    au ColorScheme * hi ALEErrorSign ctermbg=none ctermfg=125
+    au ColorScheme * hi NeomakeErrorSign ctermfg=125 guifg=#af005f
+    au ColorScheme * hi ALEErrorSign ctermbg=none ctermfg=125 guifg=#af005f
 augroup END
 
 set t_Co=256
@@ -814,7 +814,7 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 let &colorcolumn=join(range(121,999),",")
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
+highlight ColorColumn ctermbg=235 guibg=#262626
 " function! SetColorColum()
 "     let &colorcolumn=join(range(121,999),",")
 "     highlight ColorColumn ctermbg=235 guibg=#2c2d27
@@ -849,8 +849,8 @@ au BufRead,BufNewFile */systemd/*/override.conf set filetype=systemd
 
 
 " --------------------- Tabs ans status -----------------------------
-hi Statusline ctermfg=8 ctermbg=14
-hi Tabline ctermbg=8
+hi Statusline ctermfg=8 ctermbg=14 guifg=#808080 guibg=#00ffff
+hi Tabline ctermbg=8 guibg=#555555
 
 " Statusline
 let g:currentmode={
@@ -878,13 +878,13 @@ let g:currentmode={
 " Automatically change the statusline color depending on mode
 function! ChangeStatuslineColor()
   if (mode() =~# '\v(n|no)')
-    exe 'hi! StatusLine ctermfg=037 ctermbg=15'
+    exe 'hi! StatusLine ctermfg=037 ctermbg=15 guifg=#00afaf guibg=#ffffff'
   elseif (mode() =~# '\v(v|V)' || g:currentmode[mode()] ==# 'V·Block' || get(g:currentmode, mode(), '') ==# 't')
-    exe 'hi! StatusLine ctermfg=013 ctermbg=0'
+    exe 'hi! StatusLine ctermfg=013 ctermbg=0 guibg=#000000 guifg=#cccccc'
   elseif (mode() ==# 'i')
-    exe 'hi! StatusLine ctermfg=214 ctermbg=0'
+    exe 'hi! StatusLine ctermfg=214 ctermbg=0 guibg=#000000 guifg=#ffaf00'
   else
-    exe 'hi! StatusLine ctermfg=006 ctermbg=15'
+    exe 'hi! StatusLine ctermfg=006 ctermbg=15 guifg=#008080 guibg=#ffffff'
   endif
 
   return ''
@@ -934,19 +934,19 @@ set statusline+=%7*\ %{(&fenc!=''?&fenc:&enc)}\[%{&ff}]\ " Encoding & Fileformat
 set statusline+=%8*\ %-3(%{FileSize()}%)                 " File size
 set statusline+=%0*\ %3p%%\ %l:%3c\                      " Rownumber/total (%)
 
-hi User1 ctermfg=000 ctermbg=009
-hi User2 ctermfg=043
-hi User3 ctermfg=010
-hi User4 ctermfg=010
-hi User5 ctermfg=010
-hi User7 ctermfg=010
-hi User8 ctermfg=010
-hi User9 ctermfg=010
+hi User1 guifg=#000000 guifg=#ff0000 ctermfg=000 ctermbg=009
+hi User2 guifg=#00dfaf ctermfg=043
+hi User3 guifg=#00cc3f ctermfg=010
+hi User4 guifg=#00cc3f ctermfg=010
+hi User5 guifg=#00cc3f ctermfg=010
+hi User7 guifg=#00cc3f ctermfg=010
+hi User8 guifg=#00cc3f ctermfg=010
+hi User9 guifg=#00cc3f ctermfg=010
 
 " TABLINE
 
-hi TabModSel ctermbg=172 ctermfg=000
-hi TabMod ctermfg=172 ctermbg=8
+hi TabModSel ctermbg=172 ctermfg=000 guibg=#df8700 guifg=#000000
+hi TabMod ctermfg=172 ctermbg=8 guifg=#df8700 guibg=#808080
 
 function! Tabline()
   let s = ''
@@ -974,7 +974,7 @@ endfunction
 set tabline=%!Tabline()
 
 " XXX: Fix for neovim
-hi Visual cterm=reverse ctermfg=16 ctermbg=103 gui=reverse guibg=DarkGray
+hi Visual cterm=reverse ctermfg=16 ctermbg=103 gui=reverse guibg=#8787af guifg=#000000
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
