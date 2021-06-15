@@ -7,6 +7,8 @@ local function opt(scope, key, value)
     end
 end
 
+vim.g.completion_confirm_key = ""
+
 --opt("o", "colorscheme", "PaperColor")
 opt("o", "hidden", true)
 opt("o", "ignorecase", true)

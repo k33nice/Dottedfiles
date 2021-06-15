@@ -37,6 +37,7 @@ return require("packer").startup(
         use {'sbdchd/neoformat'}
         use {'neovim/nvim-lspconfig', 'glepnir/lspsaga.nvim'}
         use {'hrsh7th/nvim-compe'}
+        use {'tzachar/compe-tabnine', run = './install.sh', requires = 'hrsh7th/nvim-compe'}
         use {'windwp/nvim-autopairs'}
         use {'alvan/vim-closetag'}
         use {'tweekmonster/startuptime.vim'}
@@ -56,9 +57,6 @@ return require("packer").startup(
         use {'sgur/vim-editorconfig'}
         use {'wincent/terminus'}
         use {'gyim/vim-boxdraw'}
-        use {'SirVer/ultisnips'}
-        use {'honza/vim-snippets'}
-        use {'k33nice/vim_snippets'}
         use {'dense-analysis/ale'}
         use {'pangloss/vim-javascript'}
         use {'hoob3rt/lualine.nvim'}
@@ -75,5 +73,7 @@ return require("packer").startup(
             end
         }
         use {'gennaro-tedesco/nvim-jqx'}
+        use {'vim-utils/vim-husk'}
+        use {'sindrets/diffview.nvim'}
     end
 )

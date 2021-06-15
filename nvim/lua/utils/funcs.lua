@@ -1,3 +1,4 @@
+local npairs = require('nvim-autopairs')
 local api = vim.api
 
 local function t(str)
@@ -20,6 +21,18 @@ function _G.DeleteHiddenBuffers()
             silent execute 'bwipeout' buf
         endfor
     ]], true)
+end
+
+function _G.completion_confirm()
+  if vim.fn.pumvisible() ~= 0  then
+    if vim.fn.complete_info()["selected"] ~= -1 then
+      return vim.fn["compe#confirm"](npairs.esc("<cr>"))
+    else
+      return npairs.esc("<cr>")
+    end
+  else
+    return npairs.autopairs_cr()
+  end
 end
 
 function _G.TabCloseRight(bang)

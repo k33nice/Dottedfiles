@@ -1,13 +1,12 @@
 local map = require('utils.funcs').map
 local fzf_cur_word = require('utils.funcs').fzf_cur_word
-
--- open terminals  
-map("n", "<C-b>" , [[<cmd> vnew term://bash<CR>]]) -- split term vertically , over the right  
+local remap = vim.api.nvim_set_keymap
 
 map("n", "<leader>w", [[<Cmd> w<CR>]])
 
-vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.smart_tab()', {expr = true, noremap = true})
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.smart_s_tab()', {expr = true, noremap = true})
+remap('i', '<Tab>', 'v:lua.smart_tab()', {expr = true, noremap = true})
+remap('i', '<S-Tab>', 'v:lua.smart_s_tab()', {expr = true, noremap = true})
+remap('i' , '<CR>','v:lua.completion_confirm()', {expr = true , noremap = true})
 
 vim.api.nvim_exec([[
 fu! FzfRgCurrWord()
@@ -79,3 +78,19 @@ map('n', '<leader>m', [[<cmd> call v:lua.TabCloseLeft('')<CR>]])
 
 map('n', '<leader>dd', [[<cmd> call v:lua.DeleteHiddenBuffers()<CR>]])
 map('n', '<leader>sp', [[<cmd> :setlocal spell!<CR>]])
+map('i', '<C-h>', '<C-o>h')
+map('i', '<C-j>', '<C-o>j')
+map('i', '<C-k>', '<C-o>k')
+map('i', '<C-l>', '<C-o>l')
+map('n', '<M-j>', [[mz:m+<cr>`z]])
+map('n', '<M-k>', [[mz:m-2<cr>`z]])
+map('v', '<M-j>', [[:m'>+<cr>`<my`>mzgv`yo`z]])
+map('v', '<M-k>', [[:m'<-2<cr>`>my`<mzgv`yo`z]])
+map('n', '<space>', '%')
+map('n', '<leader>pp', [[:let @+ = expand('%') <CR>]]) -- Copy file path
+
+map('c', '<C-a>', '<Home>')
+map('c', '<C-d>', '<Del>')
+map('c', '<C-e>', '<End>')
+map('c', '<M-f>', '<S-Right>')
+map('c', '<M-b>', '<S-Left>')

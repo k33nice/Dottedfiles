@@ -1,7 +1,10 @@
+local cmd = vim.cmd
+local g = vim.g
+
 require 'plugins-list'
-require 'nvim-lspconfig'
 require 'defaults'
 require 'mappings'
+require 'nvim-lspconfig'
 
 require 'plugins'
 require 'utils.funcs'
@@ -9,17 +12,14 @@ require 'utils.funcs'
 require 'colorizer'.setup()
 require 'nvim-autopairs'.setup()
 
-local cmd = vim.cmd
-local g = vim.g
-
 g.TerminusCursorShape=0
 
 -- highlights
 cmd("hi LineNr guibg=NONE")
 cmd("hi SignColumn guibg=NONE")
 cmd("hi VertSplit guibg=NONE")
-cmd("highlight DiffAdd guifg=#81A1C1 guibg = none")
-cmd("highlight DiffChange guifg =#3A3E44 guibg = none")
+cmd("highlight GitSignsAdd guifg=#81A1C1 guibg = none")
+cmd("highlight GitSignsChange guifg =#3A3E44 guibg = none")
 cmd("highlight DiffModified guifg = #81A1C1 guibg = none")
 cmd("hi EndOfBuffer guifg=#282c34")
 

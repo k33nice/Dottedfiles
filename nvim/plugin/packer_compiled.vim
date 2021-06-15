@@ -46,7 +46,7 @@ local function save_profiles(threshold)
   _G._packer.profile_output = results
 end
 
-time("Luarocks path setup", true)
+time([[Luarocks path setup]], true)
 local package_path_str = "/Users/k33nice/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/Users/k33nice/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/Users/k33nice/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/Users/k33nice/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
 local install_cpath_pattern = "/Users/k33nice/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
@@ -57,8 +57,8 @@ if not string.find(package.cpath, install_cpath_pattern, 1, true) then
   package.cpath = package.cpath .. ';' .. install_cpath_pattern
 end
 
-time("Luarocks path setup", false)
-time("try_loadstring definition", true)
+time([[Luarocks path setup]], false)
+time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
   local success, result = pcall(loadstring(s))
   if not success then
@@ -69,8 +69,8 @@ local function try_loadstring(s, component, name)
   return result
 end
 
-time("try_loadstring definition", false)
-time("Defining packer_plugins", true)
+time([[try_loadstring definition]], false)
+time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ale = {
     loaded = true,
@@ -79,6 +79,14 @@ _G.packer_plugins = {
   ["committia.vim"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/committia.vim"
+  },
+  ["compe-tabnine"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/compe-tabnine"
+  },
+  ["diffview.nvim"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/diffview.nvim"
   },
   fzf = {
     loaded = true,
@@ -182,10 +190,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/todo-comments.nvim"
   },
-  ultisnips = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/ultisnips"
-  },
   ["vim-boxdraw"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-boxdraw"
@@ -210,6 +214,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-go"
   },
+  ["vim-husk"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-husk"
+  },
   ["vim-javascript"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-javascript"
@@ -230,10 +238,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-searchindex"
   },
-  ["vim-snippets"] = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-snippets"
-  },
   ["vim-startify"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-startify"
@@ -245,18 +249,14 @@ _G.packer_plugins = {
   ["vim-table-mode"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-table-mode"
-  },
-  vim_snippets = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim_snippets"
   }
 }
 
-time("Defining packer_plugins", false)
+time([[Defining packer_plugins]], false)
 -- Config for: spellsitter.nvim
-time("Config for spellsitter.nvim", true)
+time([[Config for spellsitter.nvim]], true)
 try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\16spellsitter\frequire\0", "config", "spellsitter.nvim")
-time("Config for spellsitter.nvim", false)
+time([[Config for spellsitter.nvim]], false)
 if should_profile then save_profiles() end
 
 END
