@@ -5,11 +5,10 @@ local cmd = vim.cmd
 local g = vim.g
 
 cmd 'colorscheme PaperColor'
-cmd 'syntax enable'
-cmd 'syntax on'
-
 cmd 'filetype plugin on'
 cmd 'filetype indent on'
+cmd 'syntax enable'
+cmd 'syntax on'
 
 vim.api.nvim_exec([[
 hi TabModSel ctermbg=172 ctermfg=000 guibg=#df8700 guifg=#000000

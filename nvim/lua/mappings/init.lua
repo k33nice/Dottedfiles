@@ -3,10 +3,14 @@ local fzf_cur_word = require('utils.funcs').fzf_cur_word
 local remap = vim.api.nvim_set_keymap
 
 map("n", "<leader>w", [[<Cmd> w<CR>]])
+map("n", "<leader>ts", [[<Cmd> :lua require('gitsigns').detach()<CR>]])
+map("n", "<leader>hx", [[<Cmd> call v:lua.HexEdit()<CR>]])
+map("n", "<leader>hq", [[<Cmd> call v:lua.HexEditRev()<CR>]])
 
 remap('i', '<Tab>', 'v:lua.smart_tab()', {expr = true, noremap = true})
 remap('i', '<S-Tab>', 'v:lua.smart_s_tab()', {expr = true, noremap = true})
-remap('i' , '<CR>','v:lua.completion_confirm()', {expr = true , noremap = true})
+-- remap('i' , '<CR>','v:lua.completion_confirm()', {expr = true , noremap = true})
+
 
 vim.api.nvim_exec([[
 fu! FzfRgCurrWord()
@@ -59,6 +63,7 @@ map('n|v', '<leader>p', '"+p')
 map('n|v', '<leader>P', '"+P')
 
 map('n|v', '<leader>y', '"+y')
+map('n|v', '<D-c>', '"+y')
 map('n', '<leader>Y', '"+yg_')
 map('n', '<leader>yy', '"+yy')
 
@@ -79,18 +84,23 @@ map('n', '<leader>m', [[<cmd> call v:lua.TabCloseLeft('')<CR>]])
 map('n', '<leader>dd', [[<cmd> call v:lua.DeleteHiddenBuffers()<CR>]])
 map('n', '<leader>sp', [[<cmd> :setlocal spell!<CR>]])
 map('i', '<C-h>', '<C-o>h')
-map('i', '<C-j>', '<C-o>j')
 map('i', '<C-k>', '<C-o>k')
 map('i', '<C-l>', '<C-o>l')
-map('n', '<M-j>', [[mz:m+<cr>`z]])
-map('n', '<M-k>', [[mz:m-2<cr>`z]])
-map('v', '<M-j>', [[:m'>+<cr>`<my`>mzgv`yo`z]])
-map('v', '<M-k>', [[:m'<-2<cr>`>my`<mzgv`yo`z]])
-map('n', '<space>', '%')
+map('i', '<C-j>', '<C-o>j')
+-- map('n', '<M-j>', [[mz:m+<cr>`z]])
+-- map('n', '<M-k>', [[mz:m-2<cr>`z]])
+-- map('v', '<M-j>', [[:m'>+<cr>`<my`>mzgv`yo`z]])
+-- map('v', '<M-k>', [[:m'<-2<cr>`>my`<mzgv`yo`z]])
+map('n|v', '<space>', '%')
 map('n', '<leader>pp', [[:let @+ = expand('%') <CR>]]) -- Copy file path
+map('v', '<m-c>', [[:s/\%V\x\x/\=nr2char(printf("%d", "0x".submatch(0)))/g<cr><c-l>`<]])
 
 map('c', '<C-a>', '<Home>')
 map('c', '<C-d>', '<Del>')
 map('c', '<C-e>', '<End>')
 map('c', '<M-f>', '<S-Right>')
 map('c', '<M-b>', '<S-Left>')
+map('n|v', '<leader>jq', '<cmd> :%!jq . <CR>')
+map('n', 'gp', '`[v`]')
+map('n', [[\]], ',')
+map('n', '<leader>pu', [[<cmd> PackerSync<CR>]])

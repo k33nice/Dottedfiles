@@ -38,7 +38,7 @@ opt('o', 'termguicolors', true)
 opt('o', 'ttyfast', true)
 
 opt('o', 'path', '**')
-opt('o', 'guicursor', '')
+-- opt('o', 'guicursor', '')
 opt('o', 'tm', 500)
 
 opt('o', 'laststatus', 2)
@@ -96,10 +96,8 @@ opt('o', 'showmatch', true)
 
 opt('o', 'mat', 2)
 
--- opt('o', 't_vb', '')
-
 opt('b', 'spelllang', 'en_us,ru_ru')
--- opt('w', 'spell', true)
+opt('w', 'spell', false)
 
 local M = {}
 

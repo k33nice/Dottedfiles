@@ -4,7 +4,8 @@ require 'lualine'.setup{
     theme = 'papercolor_dark',
     component_separators = {'', ''},
     section_separators = {'', ''},
-    disabled_filetypes = {}
+    disabled_filetypes = {},
+    path = 1,
   },
   sections = {
     lualine_a = {'mode'},

@@ -8,9 +8,29 @@ require 'nvim-lspconfig'
 
 require 'plugins'
 require 'utils.funcs'
+-- require "pears".setup()
+require 'nvim-autopairs'.setup()
 
 require 'colorizer'.setup()
-require 'nvim-autopairs'.setup()
+require 'revj'.setup{
+    brackets = {first = '([{<', last = ')]}>'}, -- brackets to consider surrounding arguments
+    new_line_before_last_bracket = true, -- add new line between last argument and last bracket (only if no last seperator)
+    add_seperator_for_last_parameter = false, -- if a seperator should be added if not present after last parameter
+    enable_default_keymaps = false, -- enables default keymaps without having to set them below
+    keymaps = {
+        operator = '<Leader>o', -- for operator (+motion)
+        line = '<Leader>J', -- for formatting current line
+        visual = '<Leader>j', -- for formatting visual selection
+    },
+}
+require('lspfuzzy').setup {}
+
+-- TODO(k33nice): enable after fix NERDTree
+-- require('spellsitter').setup{
+--     enable = true,
+--     hl = 'SpellBad',
+--     spellchecker = 'vimfn',
+-- }
 
 g.TerminusCursorShape=0
 
@@ -18,16 +38,22 @@ g.TerminusCursorShape=0
 cmd("hi LineNr guibg=NONE")
 cmd("hi SignColumn guibg=NONE")
 cmd("hi VertSplit guibg=NONE")
-cmd("highlight GitSignsAdd guifg=#81A1C1 guibg = none")
-cmd("highlight GitSignsChange guifg =#3A3E44 guibg = none")
-cmd("highlight DiffModified guifg = #81A1C1 guibg = none")
+cmd("hi GitSignsAdd guifg=#81A1C1 guibg=none")
+cmd("hi GitSignsChange guifg=#3A3E44 guibg=none")
+cmd("hi DiffModified guifg=#81A1C1 guibg=none")
 cmd("hi EndOfBuffer guifg=#282c34")
+cmd("hi DiffAdd guifg=none guibg=#07330f")
+cmd("hi Visual cterm=reverse ctermfg=16 ctermbg=103 gui=reverse guibg=#8787af guifg=#000000")
 
 -- tree folder name , icon color
-cmd("highlight NvimTreeFolderIcon guifg = #61afef")
-cmd("highlight NvimTreeFolderName guifg = #61afef")
+cmd("hi NvimTreeFolderIcon guifg=#61afef")
+cmd("hi NvimTreeFolderName guifg=#61afef")
 
-vim.fn.setenv('FZF_DEFAULT_COMMAND', 'fd --type f --follow -H -E ".git/*"')
+cmd("hi clear SpellBad")
+cmd("hi SpellBad gui=underline cterm=underline")
+
+vim.fn.setenv('FZF_DEFAULT_COMMAND', 'fd --strip-cwd-prefix --type f --follow -H -E ".git/*"')
+vim.fn.setenv('FZF_DEFAULT_OPTS', [[--bind alt-q:select-all+accept]])
 g.fzf_colors = {
    fg      = {'fg', 'Normal'},
    bg      = {'bg', 'Normal'},
@@ -89,7 +115,15 @@ let &colorcolumn=join(range(121,999),",")
 highlight ColorColumn ctermbg=235 guibg=#262626
 ]], true)
 
+
 vim.api.nvim_exec([[
 au BufEnter * hi DiffDelete ctermbg=none guibg=none
 au BufEnter * hi ALEErrorSign ctermbg=none guibg=none ctermfg=125 guifg=#af005f
+]], true)
+
+vim.api.nvim_exec([[
+aug hcl
+au!
+au BufNewFile,BufRead *.nomad set syntax=hcl
+aug END
 ]], true)

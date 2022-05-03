@@ -1,4 +1,4 @@
-local npairs = require('nvim-autopairs')
+-- local npairs = require('nvim-autopairs')
 local api = vim.api
 
 local function t(str)
@@ -23,17 +23,28 @@ function _G.DeleteHiddenBuffers()
     ]], true)
 end
 
-function _G.completion_confirm()
-  if vim.fn.pumvisible() ~= 0  then
-    if vim.fn.complete_info()["selected"] ~= -1 then
-      return vim.fn["compe#confirm"](npairs.esc("<cr>"))
-    else
-      return npairs.esc("<cr>")
-    end
-  else
-    return npairs.autopairs_cr()
-  end
+function _G.HexEdit()
+    vim.cmd('set binary')
+    vim.cmd('e')
+    require('gitsigns').detach()
+    vim.cmd('%!xxd')
 end
+
+function _G.HexEditRev()
+    vim.cmd('%!xxd -r')
+end
+
+-- function _G.ompletion_confirm()
+--   if vim.fn.pumvisible() ~= 0  then
+--     if vim.fn.complete_info()["selected"] ~= -1 then
+--       return vim.fn["cmp#confirm"](npairs.esc("<cr>"))
+--     else
+--       return npairs.esc("<cr>")
+--     end
+--   else
+--     return npairs.autopairs_cr()
+--   end
+-- end
 
 function _G.TabCloseRight(bang)
     local cur = vim.fn.tabpagenr()
