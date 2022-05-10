@@ -100,27 +100,19 @@ tabnine:setup({
     snippet_placeholder = '..';
 })
 
+
 local lsp_installer = require("nvim-lsp-installer")
 
--- Register a handler that will be called for all installed servers.
--- Alternatively, you may also register handlers on specific server instances instead (see example below).
-lsp_installer.on_server_ready(function(server)
-    local opts = {}
+lsp_installer.setup{}
 
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-    --
-    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-    opts.capabilities = capabilities
-    opts.on_attach = on_attach
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-end)
+for _, server in ipairs(lsp_installer.get_installed_servers()) do
+    lspconfig[server.name].setup{
+        capabilities = capabilities,
+        on_attach = on_attach
+    }
+end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {

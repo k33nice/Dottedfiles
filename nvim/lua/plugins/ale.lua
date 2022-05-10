@@ -16,6 +16,7 @@ g.ale_linters = { json = {'cspell', 'jq', 'jsonlint', 'spectral'} }
 g.ale_go_gopls_executable = 'gopls'
 g.ale_go_gopls_options = '--mode stdio'
 g.ale_hover_cursor = 0
+g.ale_rust_cargo_use_clippy = 1
 
 map('n', '<C-k>', '<Plug>(ale_previous_wrap)', {silent=true,noremap=false})
 map('n', '<C-j>', '<Plug>(ale_next_wrap)', {silent=true,noremap=false})
