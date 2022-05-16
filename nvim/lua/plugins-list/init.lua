@@ -35,8 +35,8 @@ return require("packer").startup(
         use {'NLKNguyen/papercolor-theme'}
         use {'norcalli/nvim-colorizer.lua'}
         use {'sbdchd/neoformat'}
-        use {'neovim/nvim-lspconfig', 'glepnir/lspsaga.nvim'}
-        use {'hrsh7th/nvim-cmp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path', 'lukas-reineke/cmp-rg'}
+        use {'neovim/nvim-lspconfig', 'tami5/lspsaga.nvim'}
+        use {'hrsh7th/nvim-cmp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path', 'lukas-reineke/cmp-rg', 'hrsh7th/cmp-copilot'}
         use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
         use {'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip'}
         use {'windwp/nvim-autopairs'}
@@ -90,5 +90,6 @@ return require("packer").startup(
         use {'kristijanhusak/vim-dadbod-ui'}
         use {'tversteeg/registers.nvim'}
         use {'matze/vim-move'}
+        use {'github/copilot.vim'}
     end
 )

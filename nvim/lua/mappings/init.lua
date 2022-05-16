@@ -81,16 +81,31 @@ command! -bang Tabcloseleft call v:lua.TabCloseLeft('')
 map('n', '<leader>.', [[<cmd> call v:lua.TabCloseRight('')<CR>]])
 map('n', '<leader>m', [[<cmd> call v:lua.TabCloseLeft('')<CR>]])
 
+function _G.getVisualSelection()
+    vim.cmd([[
+        let [line_start, column_start] = getpos("'<")[1:2]
+        let [line_end, column_end] = getpos("'>")[1:2]
+        let lines = getline(line_start, line_end)
+
+        if len(lines) == 0
+            return ""
+        endif
+
+        let lines[-1] = lines[-1][:column_end - (&selection == "inclusive" ? 1 : 2)]
+        let lines[0] = lines[0][column_start - 1:]
+
+        return join(lines, "\n")
+    ]], true)
+end
+
+-- map('v', '<leader>f', [[<cmd> FZF -q <C-R>=expand('<SID>')v:lua.getVisualSelection()<CR><CR>]])
+
 map('n', '<leader>dd', [[<cmd> call v:lua.DeleteHiddenBuffers()<CR>]])
 map('n', '<leader>sp', [[<cmd> :setlocal spell!<CR>]])
 map('i', '<C-h>', '<C-o>h')
 map('i', '<C-k>', '<C-o>k')
 map('i', '<C-l>', '<C-o>l')
 map('i', '<C-j>', '<C-o>j')
--- map('n', '<M-j>', [[mz:m+<cr>`z]])
--- map('n', '<M-k>', [[mz:m-2<cr>`z]])
--- map('v', '<M-j>', [[:m'>+<cr>`<my`>mzgv`yo`z]])
--- map('v', '<M-k>', [[:m'<-2<cr>`>my`<mzgv`yo`z]])
 map('n|v', '<space>', '%')
 map('n', '<leader>pp', [[:let @+ = expand('%') <CR>]]) -- Copy file path
 map('v', '<m-c>', [[:s/\%V\x\x/\=nr2char(printf("%d", "0x".submatch(0)))/g<cr><c-l>`<]])

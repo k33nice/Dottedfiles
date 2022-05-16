@@ -16,14 +16,12 @@ local function on_attach(client, bufnr)
     map('n', "gd", [[<cmd>lua vim.lsp.buf.definition()<CR>]], opts)
     map('n', "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     map('n', "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    map('n', 'gA', '<cmd>lua require("lspsaga.codeaction").code_action()<CR>', opts)
-    map('v', 'gA', ':<C-U>lua require("lspsaga.codeaction").range_code_action()<CR>', opts)
-    map('n', "K", '<cmd>lua require("lspsaga.hover").render_hover_doc()<CR>', opts)
-    map('n', "K", '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    map('n', "K", '<cmd>Lspsaga hover_doc<cr>', opts)
+    -- map('n', "K", '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     map('n', "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     -- map('n', '<C-k>', '<cmd>lua require("lspsaga.signaturehelp").signature_help()<CR>', opts)
     -- map('n', "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    map('n', "<leader>rn", "<cmd>lua require('lspsaga.rename').rename()<CR>", opts)
+    map('n', "<leader>rn", "<cmd>Lspsaga rename<cr>", opts)
     map('n', "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
     map('n', "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
     map('n', "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
@@ -32,6 +30,7 @@ local function on_attach(client, bufnr)
 end
 
 local source_mapping = {
+    copilot = "[Copilot]",
     buffer = "[Buffer]",
     nvim_lsp = "[LSP]",
     nvim_lua = "[Lua]",
@@ -48,8 +47,9 @@ cmp.setup {
       end
   },
   sources = {
+    { name = 'copilot'},
     { name = 'nvim_lsp' },
-    { name = 'cmp_tabnine' },
+    -- { name = 'cmp_tabnine' },
     { name = 'buffer' },
     { name = 'luasnip' },
     { name = 'path' },
@@ -79,27 +79,26 @@ cmp.setup {
           select = false,
       })
   },
-  -- formatting = {
-  --     format = function(entry, vim_item)
-  --         local menu = source_mapping[entry.source.name]
-  --         vim_item.menu = menu
-  --         return vim_item
-  --     end
-  -- },
+  formatting = {
+      format = function(entry, vim_item)
+          local menu = source_mapping[entry.source.name]
+          vim_item.menu = menu
+          return vim_item
+      end
+  },
 }
 
 -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 -- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
-local tabnine = require('cmp_tabnine.config')
-tabnine:setup({
-    max_lines = 1000;
-    max_num_results = 20;
-    sort = true;
-    run_on_every_keystroke = true;
-    snippet_placeholder = '..';
-})
-
+-- local tabnine = require('cmp_tabnine.config')
+-- tabnine:setup({
+--     max_lines = 1000;
+--     max_num_results = 20;
+--     sort = true;
+--     run_on_every_keystroke = true;
+--     snippet_placeholder = '..';
+-- })
 
 local lsp_installer = require("nvim-lsp-installer")
 
