@@ -91,5 +91,6 @@ return require("packer").startup(
         use {'tversteeg/registers.nvim'}
         use {'matze/vim-move'}
         use {'github/copilot.vim'}
+        -- use {'wookayin/fzf-ripgrep.vim'}
     end
 )

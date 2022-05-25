@@ -8,7 +8,9 @@ require'diffview'.setup {
     fold_open = "v",
   },
   file_panel = {
-    width = 35,
+      win_config = {
+          width = 35,
+      },
   },
   key_bindings = {
     disable_defaults = false,                   -- Disable the default key bindings

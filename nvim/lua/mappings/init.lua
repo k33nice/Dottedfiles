@@ -109,6 +109,7 @@ map('i', '<C-j>', '<C-o>j')
 map('n|v', '<space>', '%')
 map('n', '<leader>pp', [[:let @+ = expand('%') <CR>]]) -- Copy file path
 map('v', '<m-c>', [[:s/\%V\x\x/\=nr2char(printf("%d", "0x".submatch(0)))/g<cr><c-l>`<]])
+map('v', '<m-/>', [[:s/\%V/g<LEFT><LEFT>]])
 
 map('c', '<C-a>', '<Home>')
 map('c', '<C-d>', '<Del>')
@@ -119,3 +120,4 @@ map('n|v', '<leader>jq', '<cmd> :%!jq . <CR>')
 map('n', 'gp', '`[v`]')
 map('n', [[\]], ',')
 map('n', '<leader>pu', [[<cmd> PackerSync<CR>]])
+map('n|i', '<C-]>', '<Plug>(copilot-dismiss)')

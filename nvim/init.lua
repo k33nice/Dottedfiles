@@ -69,7 +69,18 @@ g.fzf_colors = {
    header  = {'fg', 'Comment'},
 }
 
-vim.cmd([[command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
+vim.api.nvim_exec([[
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -F %s || true'
+  let initial_command = printf(command_fmt, stridx(a:query, "-") == 0 ? a:query: shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+]], true)
+
+vim.cmd([[command! -bang -nargs=* Rg call RipgrepFzf(<q-args>, <bang>0)]])
+-- vim.cmd([[command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
 
 
 cmd("cnoreabbrev rg Rg ")
