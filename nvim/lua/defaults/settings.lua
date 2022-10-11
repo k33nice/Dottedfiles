@@ -34,7 +34,6 @@ opt('o', 'completeopt', 'menuone,noinsert,noselect')
 vim.api.nvim_exec([[
 set shortmess+=c
 ]], true)
-opt('o', 'termguicolors', true)
 opt('o', 'ttyfast', true)
 
 opt('o', 'path', '**')

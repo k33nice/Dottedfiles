@@ -37,7 +37,7 @@ return require("packer").startup(
         use {'sbdchd/neoformat'}
         use {'neovim/nvim-lspconfig', 'tami5/lspsaga.nvim'}
         use {'hrsh7th/nvim-cmp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path', 'lukas-reineke/cmp-rg', 'hrsh7th/cmp-copilot'}
-        use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
+        -- use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
         use {'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip'}
         use {'windwp/nvim-autopairs'}
         use {'alvan/vim-closetag'}
@@ -61,7 +61,7 @@ return require("packer").startup(
         use {'dense-analysis/ale'}
         use {'pangloss/vim-javascript'}
         use {'hoob3rt/lualine.nvim'}
-        --use {'fatih/vim-go', run = ':GoInstallBinaries'}
+        -- use {'fatih/vim-go', run = ':GoInstallBinaries'}
         use {'ray-x/go.nvim'}
         use {'junegunn/vim-easy-align'}
         use {'iamcco/markdown-preview.nvim', run = 'cd app & yarn install'}
@@ -91,6 +91,10 @@ return require("packer").startup(
         use {'tversteeg/registers.nvim'}
         use {'matze/vim-move'}
         use {'github/copilot.vim'}
-        -- use {'wookayin/fzf-ripgrep.vim'}
+        -- use {'folke/tokyonight.nvim'}
+        use {'rafamadriz/friendly-snippets'}
+        -- use {'chrisbra/unicode.vim'}
+        -- use {'Orange-OpenSource/hurl', run = 'mv contrib/vim/ftdetect ftdetect && mv contrib/vim/syntax syntax && gsed -i "s/ctermfg/guifg/g" syntax/*'}
+        use {'rust-lang/rust.vim', 'mattn/webapi-vim' }
     end
 )

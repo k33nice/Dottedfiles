@@ -14,8 +14,8 @@ require 'nvim-autopairs'.setup()
 require 'colorizer'.setup()
 require 'revj'.setup{
     brackets = {first = '([{<', last = ')]}>'}, -- brackets to consider surrounding arguments
-    new_line_before_last_bracket = true, -- add new line between last argument and last bracket (only if no last seperator)
-    add_seperator_for_last_parameter = false, -- if a seperator should be added if not present after last parameter
+    new_line_before_last_bracket = true, -- add new line between last argument and last bracket (only if no last separator)
+    add_seperator_for_last_parameter = false, -- if a separator should be added if not present after last parameter
     enable_default_keymaps = false, -- enables default keymaps without having to set them below
     keymaps = {
         operator = '<Leader>o', -- for operator (+motion)
@@ -26,13 +26,19 @@ require 'revj'.setup{
 require('lspfuzzy').setup {}
 
 -- TODO(k33nice): enable after fix NERDTree
--- require('spellsitter').setup{
---     enable = true,
---     hl = 'SpellBad',
---     spellchecker = 'vimfn',
--- }
+require('spellsitter').setup{
+    enable = true,
+    hl = 'SpellBad',
+    spellchecker = 'vimfn',
+}
 
 g.TerminusCursorShape=0
+
+require 'colorizer'.setup({
+  'css';
+  'javascript';
+  html = { mode = 'background' };
+}, { mode = 'foreground' })
 
 -- highlights
 cmd("hi LineNr guibg=NONE")
@@ -70,6 +76,19 @@ g.fzf_colors = {
 }
 
 vim.api.nvim_exec([[
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+]], true)
+
+vim.api.nvim_exec([[
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -F %s || true'
   let initial_command = printf(command_fmt, stridx(a:query, "-") == 0 ? a:query: shellescape(a:query))
@@ -80,7 +99,7 @@ endfunction
 ]], true)
 
 vim.cmd([[command! -bang -nargs=* Rg call RipgrepFzf(<q-args>, <bang>0)]])
--- vim.cmd([[command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
+vim.cmd([[command! -bang -nargs=* Rgf call fzf#vim#grep('rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
 
 
 cmd("cnoreabbrev rg Rg ")
@@ -108,10 +127,6 @@ aug sess
 aug END
 
 ]], true)
-
-g.UltiSnipsExpandTrigger="<M-e>"
-g.UltiSnipsJumpForwardTrigger="<M-j>"
-g.UltiSnipsJumpBackwardTrigger="<M-k>"
 
 vim.api.nvim_exec([[
 aug vim_javascript

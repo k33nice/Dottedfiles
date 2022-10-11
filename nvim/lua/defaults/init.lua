@@ -5,6 +5,7 @@ local cmd = vim.cmd
 local g = vim.g
 
 cmd 'colorscheme PaperColor'
+-- cmd 'colorscheme tokyonight'
 cmd 'filetype plugin on'
 cmd 'filetype indent on'
 cmd 'syntax enable'

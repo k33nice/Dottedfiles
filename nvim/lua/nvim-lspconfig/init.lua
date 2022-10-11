@@ -36,6 +36,7 @@ local source_mapping = {
     nvim_lua = "[Lua]",
     cmp_tabnine = "[TN]",
     path = "[Path]",
+    rg = "[rg]",
 }
 
 local cmp = require'cmp'
@@ -49,11 +50,11 @@ cmp.setup {
   sources = {
     { name = 'copilot'},
     { name = 'nvim_lsp' },
+    { name = 'luasnip' },
     -- { name = 'cmp_tabnine' },
     { name = 'buffer' },
-    { name = 'luasnip' },
     { name = 'path' },
-    { name = 'rg' },
+    { name = 'rg', keyword_length = 3 },
   },
   mapping = {
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),

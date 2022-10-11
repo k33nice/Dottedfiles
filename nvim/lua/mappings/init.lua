@@ -51,6 +51,7 @@ endfunction
 vnoremap <silent> * :call setreg("/", substitute(GetSelectedText(), '_s\+',  '\_s\+', 'g'))<Cr>n
 
 vnoremap <silent> # :call setreg("?", substitute(GetSelectedText(), '_s+','\_s\+', 'g'))<Cr>n
+imap <silent><expr> <M-e> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<M-e>'
 
 ]], true)
 
@@ -69,7 +70,7 @@ map('n', '<leader>yy', '"+yy')
 
 map('n', '<leader>lp', '[v')
 
-map('n', 'gl', '<cmd> exe "tabn ".g:lasttab<CR>')
+map('n', 'gl', 'g<TAB>')
 map('n', '<leader>j', '<cmd> cn<CR>')
 map('n', '<leader>k', '<cmd> cp<CR>')
 
@@ -102,10 +103,10 @@ end
 
 map('n', '<leader>dd', [[<cmd> call v:lua.DeleteHiddenBuffers()<CR>]])
 map('n', '<leader>sp', [[<cmd> :setlocal spell!<CR>]])
-map('i', '<C-h>', '<C-o>h')
-map('i', '<C-k>', '<C-o>k')
-map('i', '<C-l>', '<C-o>l')
-map('i', '<C-j>', '<C-o>j')
+-- map('i', '<C-h>', '<C-o>h')
+-- map('i', '<C-k>', '<C-o>k')
+-- map('i', '<C-l>', '<C-o>l')
+-- map('i', '<C-j>', '<C-o>j')
 map('n|v', '<space>', '%')
 map('n', '<leader>pp', [[:let @+ = expand('%') <CR>]]) -- Copy file path
 map('v', '<m-c>', [[:s/\%V\x\x/\=nr2char(printf("%d", "0x".submatch(0)))/g<cr><c-l>`<]])
@@ -120,4 +121,4 @@ map('n|v', '<leader>jq', '<cmd> :%!jq . <CR>')
 map('n', 'gp', '`[v`]')
 map('n', [[\]], ',')
 map('n', '<leader>pu', [[<cmd> PackerSync<CR>]])
-map('n|i', '<C-]>', '<Plug>(copilot-dismiss)')
+map('n|i', '<C-]>', [[<Plug>(copilot-dismiss)]])
