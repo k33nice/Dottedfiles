@@ -255,11 +255,6 @@ _G.packer_plugins = {
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
-  ["registers.nvim"] = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/registers.nvim",
-    url = "https://github.com/tversteeg/registers.nvim"
-  },
   ["rust.vim"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/rust.vim",
@@ -284,6 +279,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
     url = "https://github.com/folke/todo-comments.nvim"
+  },
+  ["unicode.vim"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/unicode.vim",
+    url = "https://github.com/chrisbra/unicode.vim"
   },
   ["vim-boxdraw"] = {
     loaded = true,
@@ -319,6 +319,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-editorconfig",
     url = "https://github.com/sgur/vim-editorconfig"
+  },
+  ["vim-emoji"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-emoji",
+    url = "https://github.com/junegunn/vim-emoji"
   },
   ["vim-hcl"] = {
     loaded = true,
@@ -360,11 +365,6 @@ _G.packer_plugins = {
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-repeat",
     url = "https://github.com/tpope/vim-repeat"
   },
-  ["vim-searchindex"] = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-searchindex",
-    url = "https://github.com/google/vim-searchindex"
-  },
   ["vim-startify"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/vim-startify",
@@ -395,6 +395,12 @@ _G.packer_plugins = {
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/webapi-vim",
     url = "https://github.com/mattn/webapi-vim"
   },
+  ["yanky.nvim"] = {
+    config = { "\27LJ\2\n`\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\1K\0\1\0\14highlight\1\0\0\1\0\2\von_put\1\fon_yank\1\nsetup\nyanky\frequire\0" },
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/yanky.nvim",
+    url = "https://github.com/gbprod/yanky.nvim"
+  },
   ["zig.vim"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/zig.vim",
@@ -403,6 +409,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: yanky.nvim
+time([[Config for yanky.nvim]], true)
+try_loadstring("\27LJ\2\n`\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\1K\0\1\0\14highlight\1\0\0\1\0\2\von_put\1\fon_yank\1\nsetup\nyanky\frequire\0", "config", "yanky.nvim")
+time([[Config for yanky.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

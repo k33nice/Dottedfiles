@@ -53,7 +53,7 @@ return require("packer").startup(
         use {'mhinz/vim-startify'}
         use {'xolox/vim-misc'}
         use {'tpope/vim-surround'}
-        use {'google/vim-searchindex'}
+        -- use {'google/vim-searchindex'}
         use {'dhruvasagar/vim-table-mode'}
         use {'sgur/vim-editorconfig'}
         use {'wincent/terminus'}
@@ -88,13 +88,30 @@ return require("packer").startup(
         use {'ziglang/zig.vim'}
         use {'tpope/vim-dadbod'}
         use {'kristijanhusak/vim-dadbod-ui'}
-        use {'tversteeg/registers.nvim'}
+        -- use {
+        --     'tversteeg/registers.nvim',
+        --     config = function()
+        --         require("registers").setup()
+        --     end,
+        -- }
         use {'matze/vim-move'}
         use {'github/copilot.vim'}
         -- use {'folke/tokyonight.nvim'}
         use {'rafamadriz/friendly-snippets'}
-        -- use {'chrisbra/unicode.vim'}
+        use {'chrisbra/unicode.vim'}
         -- use {'Orange-OpenSource/hurl', run = 'mv contrib/vim/ftdetect ftdetect && mv contrib/vim/syntax syntax && gsed -i "s/ctermfg/guifg/g" syntax/*'}
         use {'rust-lang/rust.vim', 'mattn/webapi-vim' }
+        use {
+            "gbprod/yanky.nvim",
+            config = function ()
+                require("yanky").setup({
+                    highlight = {
+                        on_put = false,
+                        on_yank = false,
+                    },
+                })
+            end
+        }
+        use {'junegunn/vim-emoji'}
     end
 )
