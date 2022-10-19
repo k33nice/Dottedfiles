@@ -13,16 +13,16 @@ remap('i', '<S-Tab>', 'v:lua.smart_s_tab()', {expr = true, noremap = true})
 
 
 vim.api.nvim_exec([[
-fu! FzfRgCurrWord()
+fu! FzfRgCurrWord(cmd)
   let currWord = expand('<cword>')
   if len(currWord) > 0
-    execute ':Rg '.currWord
+    execute ':'.a:cmd.' '.currWord
   else
-    execute ':Rg'
+    execute ':'.a:cmd
   endif
 endfu
 
-fu! FzfSelected()
+fu! FzfSelected(cmd)
     let reg_save = getreg('"')
     let regtype_save = getregtype('"')
     let cb_save = &clipboard
@@ -32,31 +32,34 @@ fu! FzfSelected()
     call setreg('"', reg_save, regtype_save)
     let &clipboard = cb_save
 
-    execute ':Rg '.selection
+    execute ':'.a:cmd.' '.selection
 endfu
 
-nnoremap <silent> ,s :call FzfRgCurrWord()<CR>
-vnoremap <silent> ,s :call FzfSelected()<CR>
+nnoremap <silent> ,s :call FzfRgCurrWord('Rg')<CR>
+vnoremap <silent> ,s :call FzfSelected('Rg')<CR>
+nnoremap <silent> ,f :call FzfRgCurrWord('Rgf')<CR>
+vnoremap <silent> ,f :call FzfSelected('Rgf')<CR>
 
-function! GetSelectedText()
-  let l:old_reg = getreg('"')
-  let l:old_regtype = getregtype('"')
-  norm gvy
-  let l:ret = getreg('"')
-  call setreg('"', l:old_reg, l:old_regtype)
-  exe "norm \<Esc>"
-  return l:ret
-endfunction
-
-vnoremap <silent> * :call setreg("/", substitute(GetSelectedText(), '_s\+',  '\_s\+', 'g'))<Cr>n
-
-vnoremap <silent> # :call setreg("?", substitute(GetSelectedText(), '_s+','\_s\+', 'g'))<Cr>n
 imap <silent><expr> <M-e> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<M-e>'
 
 ]], true)
 
-map("n", "<M-f>", [[<cmd> FZF<CR>]], {silent=true})
-map("n", "<M-q>", [[<cmd> call fzf#run({'source': 'fd --type f -HI', 'sink': 'tabedit'})<CR>]])
+-- function! GetSelectedText()
+--   let l:old_reg = getreg('"')
+--   let l:old_regtype = getregtype('"')
+--   norm gvy
+--   let l:ret = getreg('"')
+--   call setreg('"', l:old_reg, l:old_regtype)
+--   exe "norm \<Esc>"
+--   return l:ret
+-- endfunction
+
+-- vnoremap <silent> * :call setreg("/", substitute(GetSelectedText(), '_s\+',  '\_s\+', 'g'))<Cr>n
+
+-- vnoremap <silent> # :call setreg("?", substitute(GetSelectedText(), '_s+','\_s\+', 'g'))<Cr>n
+
+map("n", "<M-f>", [[<cmd> Files<CR>]], {silent=true})
+map("n", "<M-q>", [[<cmd> call fzf#run({'source': 'fd --type f -HI', 'sink': 'tabedit', 'window': {'width': 0.85, 'height': 0.8}, 'preview': 'bat {}'})<CR>]])
 
 map("n", "<leader><space>", [[<cmd> noh<cr>]])
 
@@ -68,7 +71,7 @@ map('n|v', '<D-c>', '"+y')
 map('n', '<leader>Y', '"+yg_')
 map('n', '<leader>yy', '"+yy')
 
-map('n', '<leader>lp', '[v')
+map('n', '<leader>lp', '`[v`]')
 
 map('n', 'gl', 'g<TAB>')
 map('n', '<leader>j', '<cmd> cn<CR>')
@@ -118,7 +121,7 @@ map('c', '<C-e>', '<End>')
 map('c', '<M-f>', '<S-Right>')
 map('c', '<M-b>', '<S-Left>')
 map('n|v', '<leader>jq', '<cmd> :%!jq . <CR>')
-map('n', 'lp', '`[v`]')
+-- map('n', 'lp', '`[v`]')
 map('n', [[\]], ',')
 map('n', '<leader>pu', [[<cmd> PackerSync<CR>]])
 map('n|i', '<C-]>', [[<Plug>(copilot-dismiss)]])

@@ -74,6 +74,12 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    config = { "\27LJ\2\n“\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\ropleader\1\0\2\nblock\a,b\tline\a,c\ftoggler\1\0\0\1\0\2\nblock\14,b<space>\tline\14,c<space>\nsetup\fComment\frequire\0" },
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   LuaSnip = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -154,6 +160,11 @@ _G.packer_plugins = {
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/go.nvim",
     url = "https://github.com/ray-x/go.nvim"
   },
+  ["impatient.nvim"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/impatient.nvim",
+    url = "https://github.com/lewis6991/impatient.nvim"
+  },
   ["lspkind-nvim"] = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/lspkind-nvim",
@@ -174,15 +185,20 @@ _G.packer_plugins = {
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
+  ["mason-lspconfig.nvim"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
+    url = "https://github.com/williamboman/mason-lspconfig.nvim"
+  },
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
+  },
   neoformat = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/neoformat",
     url = "https://github.com/sbdchd/neoformat"
-  },
-  nerdcommenter = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/nerdcommenter",
-    url = "https://github.com/scrooloose/nerdcommenter"
   },
   nerdtree = {
     loaded = true,
@@ -208,11 +224,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/nvim-jqx",
     url = "https://github.com/gennaro-tedesco/nvim-jqx"
-  },
-  ["nvim-lsp-installer"] = {
-    loaded = true,
-    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
-    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -254,6 +265,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
+  },
+  ["registers.nvim"] = {
+    loaded = true,
+    path = "/Users/k33nice/.local/share/nvim/site/pack/packer/start/registers.nvim",
+    url = "https://github.com/tversteeg/registers.nvim"
   },
   ["rust.vim"] = {
     loaded = true,
@@ -413,6 +429,10 @@ time([[Defining packer_plugins]], false)
 time([[Config for yanky.nvim]], true)
 try_loadstring("\27LJ\2\n`\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\1K\0\1\0\14highlight\1\0\0\1\0\2\von_put\1\fon_yank\1\nsetup\nyanky\frequire\0", "config", "yanky.nvim")
 time([[Config for yanky.nvim]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\n“\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\ropleader\1\0\2\nblock\a,b\tline\a,c\ftoggler\1\0\0\1\0\2\nblock\14,b<space>\tline\14,c<space>\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

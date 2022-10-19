@@ -9,6 +9,7 @@ end
 
 vim.g.completion_confirm_key = ""
 
+opt("o", "formatoptions", "jcrql")
 --opt("o", "colorscheme", "PaperColor")
 opt("o", "hidden", true)
 opt("o", "ignorecase", true)

@@ -2,6 +2,7 @@ local cmd = vim.cmd
 local g = vim.g
 
 require 'plugins-list'
+require('impatient').enable_profile()
 require 'defaults'
 require 'mappings'
 require 'nvim-lspconfig'
@@ -59,7 +60,7 @@ cmd("hi clear SpellBad")
 cmd("hi SpellBad gui=underline cterm=underline")
 
 vim.fn.setenv('FZF_DEFAULT_COMMAND', 'fd --strip-cwd-prefix --type f --follow -H -E ".git/*"')
-vim.fn.setenv('FZF_DEFAULT_OPTS', [[--bind alt-q:select-all+accept]])
+vim.fn.setenv('FZF_DEFAULT_OPTS', [[--bind ctrl-a:select-all]])
 g.fzf_colors = {
    fg      = {'fg', 'Normal'},
    bg      = {'bg', 'Normal'},
@@ -139,17 +140,12 @@ aug END
 vim.api.nvim_exec([[
 let &colorcolumn=join(range(121,999),",")
 highlight ColorColumn ctermbg=235 guibg=#262626
+highlight Pmenu ctermbg=NONE guibg=NONE
+" highlight Pmenu ctermbg=235 guibg=#262626
 ]], true)
-
 
 vim.api.nvim_exec([[
 au BufEnter * hi DiffDelete ctermbg=none guibg=none
 au BufEnter * hi ALEErrorSign ctermbg=none guibg=none ctermfg=125 guifg=#af005f
 ]], true)
 
-vim.api.nvim_exec([[
-aug hcl
-au!
-au BufNewFile,BufRead *.nomad set syntax=hcl
-aug END
-]], true)
