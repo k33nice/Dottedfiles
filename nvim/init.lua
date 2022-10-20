@@ -9,10 +9,8 @@ require 'nvim-lspconfig'
 
 require 'plugins'
 require 'utils.funcs'
--- require "pears".setup()
 require 'nvim-autopairs'.setup()
 
-require 'colorizer'.setup()
 require 'revj'.setup{
     brackets = {first = '([{<', last = ')]}>'}, -- brackets to consider surrounding arguments
     new_line_before_last_bracket = true, -- add new line between last argument and last bracket (only if no last separator)
@@ -51,6 +49,7 @@ cmd("hi DiffModified guifg=#81A1C1 guibg=none")
 cmd("hi EndOfBuffer guifg=#282c34")
 cmd("hi DiffAdd guifg=none guibg=#07330f")
 cmd("hi Visual cterm=reverse ctermfg=16 ctermbg=103 gui=reverse guibg=#8787af guifg=#000000")
+cmd("hi FloatBorder ctermbg=NONE guibg=NONE")
 
 -- tree folder name , icon color
 cmd("hi NvimTreeFolderIcon guifg=#61afef")

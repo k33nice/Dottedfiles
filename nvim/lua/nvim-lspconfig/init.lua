@@ -113,7 +113,16 @@ cmp.setup {
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-mason.setup()
+mason.setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        },
+        border = "rounded",
+    }
+})
 mason_lspconfig.setup({
     automatic_installation = true,
 })

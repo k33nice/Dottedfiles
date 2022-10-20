@@ -91,7 +91,7 @@ return require("packer").startup(
         use {'dense-analysis/ale'}
         use {'pangloss/vim-javascript'}
         use {'hoob3rt/lualine.nvim'}
-        -- -- use {'fatih/vim-go', run = ':GoInstallBinaries'}
+        -- use {'fatih/vim-go', run = ':GoInstallBinaries'}
         use {'ray-x/go.nvim'}
         use {'junegunn/vim-easy-align'}
         use {'iamcco/markdown-preview.nvim', run = 'cd app & yarn install'}
